@@ -5,7 +5,7 @@ test_that("predict() is working", {
     dfmt_feat <- dfm(tokens(c("aa bb cc", "aa bb", "bb cc")))
     dfmt_label <- dfm(tokens(c("A", "B", "B")), tolower = FALSE)
     dfmt_new <- dfm(tokens(c("aa bb cc", "aa bb", "zz")))
-    map <- textmodel_newsmap(dfmt_feat, dfmt_label)
+    map <- textmodel_wordmap(dfmt_feat, dfmt_label)
 
     expect_equal(
         predict(map),
@@ -45,7 +45,7 @@ test_that("min_n is working", {
 
     dfmt_feat <- dfm(tokens(c("aa bb cc dd", "aa bb", "bb cc")))
     dfmt_label <- dfm(tokens(c("A", "B", "B")), tolower = FALSE)
-    map <- textmodel_newsmap(dfmt_feat, dfmt_label)
+    map <- textmodel_wordmap(dfmt_feat, dfmt_label)
     pred1 <- predict(map, type = "all")
 
     pred2 <- predict(map, type = "all", min_n = 1)
@@ -73,7 +73,7 @@ test_that("min_conf is working", {
 
     dfmt_feat <- dfm(tokens(c("aa bb cc dd", "aa bb", "bb cc")))
     dfmt_label <- dfm(tokens(c("A", "B", "B")), tolower = FALSE)
-    map <- textmodel_newsmap(dfmt_feat, dfmt_label)
+    map <- textmodel_wordmap(dfmt_feat, dfmt_label)
 
     expect_equal(
         predict(map, confidence = TRUE)$class,

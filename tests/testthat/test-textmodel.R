@@ -3,7 +3,7 @@ require(quanteda)
 toks_test <- tokens(data_corpus_inaugural, remove_punct = TRUE)
 dfmt_test <- dfm(toks_test) %>%
     dfm_remove(stopwords("en"))
-toks_dict_test <- tokens_lookup(toks_test, data_dictionary_newsmap_en, level = 3)
+toks_dict_test <- tokens_lookup(toks_test, newsmap::data_dictionary_newsmap_en, level = 3)
 dfmt_dict_test <- dfm(toks_dict_test)
 
 test_that("textmodel_newsmap() works with different inputs", {
@@ -13,42 +13,42 @@ test_that("textmodel_newsmap() works with different inputs", {
     dfmt$Party <- factor(dfmt$Party)
 
     smat <- xtabs( ~ docid(dfmt) + dfmt$Party, sparse = TRUE)
-    map1 <- textmodel_newsmap(dfmt, smat)
+    map1 <- textmodel_wordmap(dfmt, smat)
     expect_identical(map1$data, dfmt)
     expect_equal(names(coef(map1)), levels(dfmt$Party))
     expect_null(map1$weight)
 
     mat <- as.matrix(smat)
-    map2 <- textmodel_newsmap(dfmt, mat)
+    map2 <- textmodel_wordmap(dfmt, mat)
     expect_identical(map2$data, dfmt)
     expect_equal(names(coef(map2)), levels(dfmt$Party))
     expect_null(map2$weight)
 
-    map3 <- textmodel_newsmap(dfmt, mat, boolean = TRUE)
+    map3 <- textmodel_wordmap(dfmt, mat, boolean = TRUE)
     expect_identical(map3$data, dfmt)
     expect_equal(names(coef(map3)), levels(dfmt$Party))
     expect_false(identical(coef(map1), coef(map3)))
 
-    expect_error(textmodel_newsmap(list(), smat))
-    expect_error(textmodel_newsmap(dfmt, list()))
-    expect_error(textmodel_newsmap(dfmt, NULL))
-    expect_warning(textmodel_newsmap(dfmt, mat, aaa = 10),
+    expect_error(textmodel_wordmap(list(), smat))
+    expect_error(textmodel_wordmap(dfmt, list()))
+    expect_error(textmodel_wordmap(dfmt, NULL))
+    expect_warning(textmodel_wordmap(dfmt, mat, aaa = 10),
                    "aaa argument is not used")
 
     # use entropy weighting
-    map_loc <- textmodel_newsmap(dfmt, mat, entropy = "local")
+    map_loc <- textmodel_wordmap(dfmt, mat, entropy = "local")
     expect_identical(dim(map_loc$weight), dim(map_loc$model))
     expect_false(all(map_loc$weight[1,] == map_loc$weight[2,]))
     expect_equal(coef(map_loc, 10)[[1]],
                  head(sort(map_loc$weight[1,] * map_loc$model[1,], decreasing = TRUE), 10))
 
-    map_avg <- textmodel_newsmap(dfmt, mat, entropy = "average")
+    map_avg <- textmodel_wordmap(dfmt, mat, entropy = "average")
     expect_identical(dim(map_avg$weight), dim(map_avg$model))
     expect_true(all(map_avg$weight[1,] == map_avg$weight[2,]))
     expect_equal(coef(map_avg, 10)[[1]],
                  head(sort(map_avg$weight[1,] * map_avg$model[1,], decreasing = TRUE), 10))
 
-    map_glo <- textmodel_newsmap(dfmt, mat, entropy = "global")
+    map_glo <- textmodel_wordmap(dfmt, mat, entropy = "global")
     expect_identical(dim(map_glo$weight), dim(map_glo$model))
     expect_true(all(map_glo$weight[1,] == map_glo$weight[2,]))
     expect_equal(coef(map_glo, 10)[[1]],
@@ -59,38 +59,38 @@ test_that("textmodel_newsmap() works with different inputs", {
     expect_false(all(map_avg$weight[1,] == map_glo$weight[1,]))
 
     expect_error(
-        textmodel_newsmap(dfmt, smat, smooth = -1),
+        textmodel_wordmap(dfmt, smat, smooth = -1),
         "The value of smooth must be between 0 and Inf"
     )
     expect_error(
-        textmodel_newsmap(dfmt, smat, smooth = c(1, 2)),
+        textmodel_wordmap(dfmt, smat, smooth = c(1, 2)),
         "The length of smooth must be 1"
     )
     expect_error(
-        textmodel_newsmap(dfmt, smat, boolean = "yes"),
+        textmodel_wordmap(dfmt, smat, boolean = "yes"),
         "The value of boolean cannot be NA"
     )
     expect_error(
-        textmodel_newsmap(dfmt, smat, drop_label = "no"),
+        textmodel_wordmap(dfmt, smat, drop_label = "no"),
         "The value of drop_label cannot be NA"
     )
 })
 
 
-test_that("methods for textmodel_newsmap works correctly", {
+test_that("methods for textmodel_wordmap works correctly", {
     txt <- c("Ireland is famous for Guinness.",
               "Guinness began retailing in India in 2007.",
               "Cork is an Irish coastal city.",
               "Titanic departed Cork Harbour in 1912.")
 
     toks <- tokens(txt)
-    label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
+    label_toks <- tokens_lookup(toks, newsmap::data_dictionary_newsmap_en, levels = 3)
     label_dfm <- dfm(label_toks)
 
     feat_dfm <- dfm(toks, tolower = FALSE) %>%
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
                              valuetype = 'regex', case_insensitive = FALSE)
-    map <- textmodel_newsmap(feat_dfm, label_dfm)
+    map <- textmodel_wordmap(feat_dfm, label_dfm)
 
     expect_equal(
         names(map),
@@ -123,8 +123,8 @@ test_that("methods for textmodel_newsmap works correctly", {
     )
 
     expect_output(
-        textmodel_newsmap(feat_dfm, label_dfm, verbose = TRUE),
-        'Fitting textmodel_newsmap.*label = "ie".*  label = "in"'
+        textmodel_wordmap(feat_dfm, label_dfm, verbose = TRUE),
+        'Fitting textmodel_wordmap.*label = "ie".*  label = "in"'
     )
 
     # print
@@ -132,14 +132,14 @@ test_that("methods for textmodel_newsmap works correctly", {
         print(map),
         paste0('(\n)',
                'Call:(\n)',
-               'textmodel_newsmap\\(.*\\)(\n)')
+               'textmodel_wordmap\\(.*\\)(\n)')
     )
 
     expect_output(
         print(summary(map)),
         paste0('(\n)',
                'Call:(\n)',
-               'textmodel_newsmap\\(.*\\)(\n)',
+               'textmodel_wordmap\\(.*\\)(\n)',
                '\n',
                'Labels:(\n)',
                '\\[1\\] "in" "ie"(\n)',
@@ -150,13 +150,13 @@ test_that("methods for textmodel_newsmap works correctly", {
 
 })
 
-test_that("textmodel_newsmap() raises error if dfm is empty", {
+test_that("textmodel_wordmap() raises error if dfm is empty", {
     dfmt1 <- dfm(tokens("a b c"))
     dfmt2 <- dfm(tokens("A"))
-    expect_error(textmodel_newsmap(dfm_trim(dfmt1, min_termfreq = 10), dfmt2),
+    expect_error(textmodel_wordmap(dfm_trim(dfmt1, min_termfreq = 10), dfmt2),
                  "x must have at least one non-zero feature")
 
-    expect_error(textmodel_newsmap(dfmt1, dfm_trim(dfmt2, min_termfreq = 10)),
+    expect_error(textmodel_wordmap(dfmt1, dfm_trim(dfmt2, min_termfreq = 10)),
                  "y must have at least one non-zero feature")
 })
 
@@ -166,17 +166,17 @@ test_that("label and drop_label are working", {
              "India and Pakistan are neighbours.",
              "A man went to the Moon.")
     toks <- tokens(txt)
-    toks_label <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
+    toks_label <- tokens_lookup(toks, newsmap::data_dictionary_newsmap_en, levels = 3)
     dfmt <- dfm(toks)
     dfmt_label <- dfm(toks_label)
 
-    map1 <- textmodel_newsmap(dfmt, dfmt_label)
+    map1 <- textmodel_wordmap(dfmt, dfmt_label)
     expect_equal(names(coef(map1)), c("us", "jp", "in", "pk", "gb", "fr"))
 
-    map2 <- textmodel_newsmap(dfmt, dfmt_label, label = "max")
+    map2 <- textmodel_wordmap(dfmt, dfmt_label, label = "max")
     expect_equal(names(coef(map2)), c("jp", "in", "pk", "gb"))
 
-    map3 <- textmodel_newsmap(dfmt, dfmt_label, drop_label = FALSE)
+    map3 <- textmodel_wordmap(dfmt, dfmt_label, drop_label = FALSE)
     expect_equal(names(coef(map3)), colnames(dfmt_label))
 })
 
@@ -205,7 +205,7 @@ test_that("afe() is working", {
              "India and Pakistan are neighbours.",
              "A man went to the Moon.")
     toks <- tokens(txt)
-    toks_label <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
+    toks_label <- tokens_lookup(toks, newsmap::data_dictionary_newsmap_en, levels = 3)
     dfmt <- dfm(toks)
     dfmt_label <- dfm(toks_label)
 
@@ -220,7 +220,7 @@ test_that("coef() and dictionary() are working", {
     dfmt <- dfm_trim(dfmt_test, min_termfreq = 100)
     dfmt_dict <- dfm_trim(dfmt_dict_test, min_termfreq = 2)
 
-    map <- textmodel_newsmap(dfmt, dfmt_dict)
+    map <- textmodel_wordmap(dfmt, dfmt_dict)
 
     expect_true(all(lengths(coef(map, n = 5)) == 5))
     expect_identical(coef(map)[c("us")],
@@ -249,11 +249,11 @@ test_that("coef() and dictionary() are working", {
     expect_true(all(lengths(lis2) == 20))
 
     # TODO: change to as.dictionary()
-    dict1 <- newsmap:::as.dictionary.textmodel_newsmap(map)
+    dict1 <- as.dictionary(map)
     expect_s4_class(dict1, "dictionary2")
     expect_true(all(lengths(as.list(dict1)) == 10))
 
-    dict2 <- newsmap:::as.dictionary.textmodel_newsmap(map, n = 20, c("ru", "fr"))
+    dict2 <- as.dictionary(map, n = 20, c("ru", "fr"))
     expect_s4_class(dict2, "dictionary2")
     expect_equal(names(dict2), c("ru", "fr"))
     expect_true(all(lengths(dict2) == 20))
