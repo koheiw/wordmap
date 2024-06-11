@@ -1,5 +1,4 @@
-#' Semi-supervised Bayesian multinomial model for geographical document
-#' classification
+#' Semi-supervised Bayesian model for multinomial document classification
 #'
 #' Train a Newsmap model to predict geographical focus of documents with labels
 #' given by a dictionary.
@@ -38,26 +37,26 @@
 #'              text2 = "The South Korean prime minister was re-elected.")
 #'
 #' toks_en <- tokens(text_en)
-#' label_toks_en <- tokens_lookup(toks_en, data_dictionary_newsmap_en, levels = 3)
+#' label_toks_en <- tokens_lookup(toks_en, data_dictionary_wordmap_en, levels = 3)
 #' label_dfm_en <- dfm(label_toks_en)
 #'
 #' feat_dfm_en <- dfm(toks_en, tolower = FALSE)
 #'
-#' model_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
+#' model_en <- textmodel_wordmap(feat_dfm_en, label_dfm_en)
 #' predict(model_en)
 #'
 #' @export
-textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
+textmodel_wordmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
                               boolean = FALSE, drop_label = TRUE,
                               verbose = quanteda_options('verbose'),
                               entropy = c("none", "global", "local", "average"), ...) {
-    UseMethod("textmodel_newsmap")
+    UseMethod("textmodel_wordmap")
 }
 
 #' @noRd
 #' @export
 #' @importFrom quanteda check_double check_logical
-textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
+textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                                   boolean = FALSE, drop_label = TRUE,
                                   verbose = quanteda_options('verbose'),
                                   entropy = c("none", "global", "local", "average"), ...) {
@@ -91,7 +90,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                     dimnames = list(colnames(y), colnames(w)))
 
     if (verbose)
-        cat("Fitting textmodel_newsmap...\n")
+        cat("Fitting textmodel_wordmap...\n")
 
     if (entropy == "global") {
         e <- get_entropy(w, nrow(w)) # e = 1.0 for uniform distribution
@@ -137,17 +136,17 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                    feature = colnames(model),
                    concatenator = meta(x, field = "concatenator", type = "object"),
                    call = match.call(sys.function(-1), call = sys.call(-1)),
-                   version = utils::packageVersion("newsmap"))
+                   version = utils::packageVersion("wordmap"))
     if (entropy != "none")
         result$weight <- weight
-    class(result) <- "textmodel_newsmap"
+    class(result) <- "textmodel_wordmap"
     return(result)
 }
 
 #' @noRd
-#' @method summary textmodel_newsmap
+#' @method summary textmodel_wordmap
 #' @export
-summary.textmodel_newsmap <- function(object, n = 10, ...) {
+summary.textmodel_wordmap <- function(object, n = 10, ...) {
     result <- list(
         "call" = object$call,
         "labels" = rownames(object$model)
@@ -158,16 +157,16 @@ summary.textmodel_newsmap <- function(object, n = 10, ...) {
 }
 
 #' Extract coefficients for features
-#' @param object a Newsmap model fitted by [textmodel_newsmap()].
+#' @param object a Newsmap model fitted by [textmodel_wordmap()].
 #' @param n the number of coefficients to extract.
 #' @param select returns the coefficients for the selected class; specify by the
 #'   names of rows in `object$model`.
 #' @param ... not used.
-#' @method coef textmodel_newsmap
+#' @method coef textmodel_wordmap
 #' @import Matrix
 #' @importFrom stats coef
 #' @export
-coef.textmodel_newsmap <- function(object, n = 10, select = NULL, ...) {
+coef.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
 
     n <- check_integer(n, min = 0)
     select <- check_character(select, min_len = 1, max_len = nrow(object$model),
@@ -197,11 +196,11 @@ coef.textmodel_newsmap <- function(object, n = 10, select = NULL, ...) {
     return(result)
 }
 
-#' @rdname coef.textmodel_newsmap
-#' @method coefficients textmodel_newsmap
+#' @rdname coef.textmodel_wordmap
+#' @method coefficients textmodel_wordmap
 #' @importFrom stats coefficients
 #' @export
-coefficients.textmodel_newsmap <- function(object, n = 10, select = NULL, ...) {
+coefficients.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
     UseMethod("coef")
 }
 
@@ -237,7 +236,7 @@ accuracy <- function(x, y) {
         f1 <- (2 * precision * recall) / (precision + recall)
         result <- rbind(result, data.frame(tp, fp, tn, fn, precision, recall, f1))
     }
-    class(result) <- c('textmodel_newsmap_accuracy', class(result))
+    class(result) <- c('textmodel_wordmap_accuracy', class(result))
     rownames(result) <- label
     return(result)
 }
@@ -249,9 +248,9 @@ accuracy <- function(x, y) {
 #' `accuracy()`.
 #' @param object output of accuracy()
 #' @param ... not used.
-#' @method summary textmodel_newsmap_accuracy
+#' @method summary textmodel_wordmap_accuracy
 #' @export
-summary.textmodel_newsmap_accuracy <- function(object, ...) {
+summary.textmodel_wordmap_accuracy <- function(object, ...) {
 
     #Micro-average of precision = (TP1+TP2)/(TP1+TP2+FP1+FP2)
     p <- sum(object[,'tp'], na.rm = TRUE) / sum(object[,c('tp', 'fp')])

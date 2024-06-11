@@ -1,5 +1,5 @@
 
-#' Prediction method for textmodel_newsmap
+#' Prediction method for textmodel_wordmap
 #'
 #' Predict document class using trained a Newsmap model
 #' @param object a fitted Newsmap textmodel.
@@ -14,11 +14,11 @@
 #' @param min_conf return `NA` when confidence is lower than this value.
 #' @param min_n set the minimum number of polarity words in documents.
 #' @param ... not used.
-#' @method predict textmodel_newsmap
+#' @method predict textmodel_wordmap
 #' @export
 #' @importFrom methods as
 #' @import quanteda
-predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE, rank = 1L,
+predict.textmodel_wordmap <- function(object, newdata = NULL, confidence = FALSE, rank = 1L,
                                       type = c("top", "all"), rescale = FALSE,
                                       min_conf = -Inf, min_n = 0L, ...) {
 

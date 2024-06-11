@@ -1,39 +1,25 @@
 
-# Newsmap: geographical document classifier
+# Wordmap: multi-purpose lexicon generator
 
 <!-- badges: start -->
 
 [![CRAN
-Version](https://www.r-pkg.org/badges/version/newsmap)](https://CRAN.R-project.org/package=newsmap)
-[![Downloads](https://cranlogs.r-pkg.org/badges/newsmap)](https://CRAN.R-project.org/package=newsmap)
+Version](https://www.r-pkg.org/badges/version/wordmap)](https://CRAN.R-project.org/package=wordmap)
+[![Downloads](https://cranlogs.r-pkg.org/badges/wordmap)](https://CRAN.R-project.org/package=wordmap)
 [![Total
-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/newsmap?color=orange)](https://CRAN.R-project.org/package=newsmap)
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/wordmap?color=orange)](https://CRAN.R-project.org/package=wordmap)
 [![R build
-status](https://github.com/koheiw/newsmap/workflows/R-CMD-check/badge.svg)](https://github.com/koheiw/newsmap/actions)
-[![codecov](https://codecov.io/gh/koheiw/newsmap/branch/master/graph/badge.svg)](https://codecov.io/gh/koheiw/newsmap)
+status](https://github.com/koheiw/wordmap/workflows/R-CMD-check/badge.svg)](https://github.com/koheiw/wordmap/actions)
+[![codecov](https://codecov.io/gh/koheiw/wordmap/branch/master/graph/badge.svg)](https://codecov.io/gh/koheiw/wordmap)
 <!-- badges: end -->
-
-Semi-supervised Bayesian model for geographical document classification.
-Newsmap automatically constructs a large geographical dictionary from a
-corpus to accurate classify documents. Currently, the **newsmap**
-package contains seed dictionaries in multiple languages that include
-*English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*,
-*Italian*, *Arabic*, *Turkish*, *Hebrew*, *Japanese*, *Chinese*.
-
-The detail of the algorithm is explained in [Newsmap: semi-supervised
-approach to geographical news
-classification](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full).
-**newsmap** has also been used in scientific research in various fields
-([Google
-Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=3438152153062747083)).
 
 ## How to install
 
-**newsmap** is available on CRAN since the version 0.6. You can install
+**wordmap** is available on CRAN since the version 0.6. You can install
 the package using R Studio GUI or the command.
 
 ``` r
-install.packages("newsmap")
+install.packages("wordmap")
 ```
 
 If you want to the latest version, please install by running this
@@ -41,7 +27,7 @@ command in R. You need to have **devtools** installed beforehand.
 
 ``` r
 install.packages("devtools")
-devtools::install_github("koheiw/newsmap")
+devtools::install_github("koheiw/wordmap")
 ```
 
 ## Example
@@ -60,11 +46,11 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1',
               '~/yahoo-news.RDS', mode = "wb")
 ```
 
-### Train Newsmap classifier
+### Train wordmap classifier
 
 ``` r
-require(newsmap)
-## Loading required package: newsmap
+require(wordmap)
+## Loading required package: wordmap
 ```
 
 ``` r
@@ -100,7 +86,7 @@ toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding =
 toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
 
 # quanteda v1.5 introduced 'nested_scope' to reduce ambiguity in dictionary lookup
-toks_label <- tokens_lookup(toks, data_dictionary_newsmap_en, 
+toks_label <- tokens_lookup(toks, data_dictionary_wordmap_en, 
                             levels = 3, nested_scope = "dictionary")
 dfmt_label <- dfm(toks_label)
 
@@ -109,7 +95,7 @@ dfmt_feat <- dfm_select(dfmt_feat, selection = "keep", '^[A-Z][A-Za-z1-2]+',
                         valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
 dfmt_feat <- dfm_trim(dfmt_feat, min_termfreq = 10)
 
-model <- textmodel_newsmap(dfmt_feat, dfmt_label)
+model <- textmodel_wordmap(dfmt_feat, dfmt_label)
 
 # Features with largest weights
 coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
