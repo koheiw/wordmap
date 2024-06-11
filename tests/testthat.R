@@ -1,2 +1,2 @@
 require(testthat)
-test_check("newsmap")
+test_check("wordmap")
