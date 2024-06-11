@@ -6,7 +6,7 @@ dfmt_test <- dfm(toks_test) %>%
 toks_dict_test <- tokens_lookup(toks_test, newsmap::data_dictionary_newsmap_en, level = 3)
 dfmt_dict_test <- dfm(toks_dict_test)
 
-test_that("textmodel_newsmap() works with different inputs", {
+test_that("textmodel_wordmap() works with different inputs", {
     toks <- tokens(data_corpus_inaugural, remove_punct = TRUE) %>%
         tokens_remove(stopwords())
     dfmt <- dfm(toks)

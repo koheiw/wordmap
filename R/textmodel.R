@@ -37,7 +37,7 @@
 #'              text2 = "The South Korean prime minister was re-elected.")
 #'
 #' toks_en <- tokens(text_en)
-#' label_toks_en <- tokens_lookup(toks_en, data_dictionary_wordmap_en, levels = 3)
+#' label_toks_en <- tokens_lookup(toks_en, newsmap::data_dictionary_newsmap_en, levels = 3)
 #' label_dfm_en <- dfm(label_toks_en)
 #'
 #' feat_dfm_en <- dfm(toks_en, tolower = FALSE)

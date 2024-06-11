@@ -20,7 +20,8 @@ Imports:
     quanteda.textstats,
     stringi
 Suggests:
-    testthat
+    testthat,
+    newsmap
 Language: en-GB
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
