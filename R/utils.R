@@ -7,9 +7,13 @@ as.list.textmodel_wordmap <- function(x, ...) {
 }
 
 #' @export
+#' @param separator the character in between multi-word dictionary values. If
+#'   `NULL`, `x$concatenator` will be used.
 #' @method as.dictionary textmodel_wordmap
-as.dictionary.textmodel_wordmap <- function(x, ...) {
-    dictionary(lapply(coef(x, ...), names), separator = x$concatenator)
+as.dictionary.textmodel_wordmap <- function(x, separator = NULL, ...) {
+    if (is.null(separator))
+        separator <- x$concatenator
+    dictionary(lapply(coef(x, ...), names), separator = separator)
 }
 
 #' @export

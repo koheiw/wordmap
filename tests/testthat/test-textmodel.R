@@ -254,10 +254,15 @@ test_that("coef() and dictionary() are working", {
     dict1 <- as.dictionary(map)
     expect_s4_class(dict1, "dictionary2")
     expect_true(all(lengths(as.list(dict1)) == 10))
+    expect_equal(dict3@meta$object$separator, "_")
 
     dict2 <- as.dictionary(map, n = 20, c("ru", "fr"))
     expect_s4_class(dict2, "dictionary2")
     expect_equal(names(dict2), c("ru", "fr"))
     expect_true(all(lengths(dict2) == 20))
+
+    dict3 <- as.dictionary(map, separatpr = "+")
+    expect_s4_class(dict3, "dictionary2")
+    expect_equal(dict3@meta$object$separator, "+")
 
 })
