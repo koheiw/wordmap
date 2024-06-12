@@ -40,7 +40,7 @@ If you want to the latest version, please install by running this command in R. 
 
 ```{r, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("koheiw/newsmap")
+devtools::install_github("koheiw/wordmap")
 ```
 
 ## Example
@@ -49,18 +49,14 @@ In this example, using a text analysis package [**quanteda**](https://quanteda.i
 
 ### Download example data
 
-```{r, eval=FALSE}
-download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', 
-              '~/yahoo-news.RDS', mode = "wb")
-```
-
-
 ```{r}
 require(quanteda)
+require(wordmap)
+
 dict <- dictionary(file = "dict/dictionary.yml")
 corp <- data_corpus_ungd2017 %>% 
     corpus_reshape()
-docvars(corp)
+
 toks <- tokens(corp, remove_url = TRUE, remove_numbers = TRUE) %>% 
     tokens_remove(stopwords("en"), min_nchar = 2, padding = TRUE)
     
@@ -68,20 +64,21 @@ dfmt_feat <- dfm(toks, remove_padding = TRUE)
 dfmt_label <- tokens_lookup(toks, dict) %>% 
     dfm()
 
-map <- textmodel_wordmap(dfmt_feat, dfmt_label, entropy = "local")
+map <- textmodel_wordmap(dfmt_feat, dfmt_label)
 coef(map)
-pred <- predict(map)
-dat <- data.frame(corp, pred)
-View(dat)
 ```
 
 ### Predict geographical focus of texts 
 
 ```{r}
-pred_data <- data.frame(text = as.character(sub_corp), country = predict(model))
+dat <- data.frame(text = corp, topic = predict(map))
 ```
 
 ```{r echo=FALSE}
-knitr::kable(head(pred_data))
+knitr::kable(head(dat, 10))
 ```
+### Create a dictionary
 
+```{r}
+as.dictionary(map, n = 20)
+```
