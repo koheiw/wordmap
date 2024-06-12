@@ -56,7 +56,7 @@ map <- textmodel_wordmap(dfmt_feat, dfmt_label)
 coef(map)
 ```
 
-### Predict geographical focus of texts 
+### Predict topics of sentences 
 
 ```{r}
 dat <- data.frame(text = corp, topic = predict(map))
@@ -65,9 +65,9 @@ dat <- data.frame(text = corp, topic = predict(map))
 ```{r echo=FALSE}
 knitr::kable(head(dat, 10))
 ```
-### Create a dictionary
+### Create a topic dictionary
 
-Create a **quanteda** dictionary object from the extracted features. The dictionary can use to perform analysis of other corpora.
+Create a **quanteda** dictionary object from the extracted features. The dictionary could be use to perform analysis of other corpora.
 
 ```{r}
 as.dictionary(map, n = 100)

@@ -131,7 +131,7 @@ coef(map)
 ##    6.201050    6.014274    5.885831    5.833736
 ```
 
-### Predict geographical focus of texts
+### Predict topics of sentences
 
 ``` r
 dat <- data.frame(text = corp, topic = predict(map))
@@ -150,10 +150,10 @@ dat <- data.frame(text = corp, topic = predict(map))
 | Afghanistan.9  | There is an emerging consensus that advanced economies have yet to arrive at proper growth models to overcome high unemployment, decreasing income and wealth inequality.                                             | development |
 | Afghanistan.10 | The threat of economic crisis, therefore, still hangs over us.                                                                                                                                                        | security    |
 
-### Create a dictionary
+### Create a topic dictionary
 
 Create a **quanteda** dictionary object from the extracted features. The
-dictionary can use to perform analysis of other corpora.
+dictionary could be use to perform analysis of other corpora.
 
 ``` r
 as.dictionary(map, n = 100)
