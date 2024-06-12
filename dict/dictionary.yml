@@ -1,0 +1,78 @@
+greeting:
+  - greet*
+  - thank*
+  - congratulat*
+  - sir
+  - express*
+un:
+  - united nations
+  - international court*
+  - security council
+  - general assembly
+  - organization*
+  - reform*
+  - secretary-general
+  - resolution*
+  - permanent member*
+  - charter*
+  - session*
+  - conference*
+security:
+  - secur*
+  - kill*
+  - attack*
+  - dispute*
+  - victim*
+  - peac*
+  - terror*
+  - weapon*
+  - nuclear*
+  - conflict*
+  - war*
+  - disarmament*
+  - threat*
+  - cris*
+  - solution*
+  - settlement*
+  - force*
+  - destruction*
+  - militar*
+  - violence*
+  - arm*
+  - fight*
+human:
+  - human rights
+  - violat*
+  - race*
+  - dignit*
+  - protect*
+  - citizen*
+  - educat*
+democracy:
+  - democra*
+  - autocra*
+  - dictator*
+  - vote*
+  - represent*
+  - elect*
+  - leader*
+  - president*
+  - government*
+  - leadership*
+development:
+  - develop*
+  - market*
+  - investment*
+  - econom*
+  - climate change
+  - assistance*
+  - sustain*
+  - povert*
+  - trade*
+  - grow*
+  - social*
+  - environment*
+  - prosperit*
+  - progress*
+  - financ*
+  - cooperation*

@@ -54,46 +54,25 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1',
               '~/yahoo-news.RDS', mode = "wb")
 ```
 
-### Train Newsmap classifier
 
 ```{r}
-require(newsmap)
 require(quanteda)
+dict <- dictionary(file = "dict/dictionary.yml")
+corp <- data_corpus_ungd2017 %>% 
+    corpus_reshape()
+docvars(corp)
+toks <- tokens(corp, remove_url = TRUE, remove_numbers = TRUE) %>% 
+    tokens_remove(stopwords("en"), min_nchar = 2, padding = TRUE)
+    
+dfmt_feat <- dfm(toks, remove_padding = TRUE)
+dfmt_label <- tokens_lookup(toks, dict) %>% 
+    dfm()
 
-# Load data
-dat <- readRDS('~/yahoo-news.RDS')
-dat$text <- paste0(dat$head, ". ", dat$body)
-dat$body <- NULL
-corp <- corpus(dat, text_field = 'text')
-
-# Custom stopwords
-month <- c('January', 'February', 'March', 'April', 'May', 'June',
-           'July', 'August', 'September', 'October', 'November', 'December')
-day <- c('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
-agency <- c('AP', 'AFP', 'Reuters')
-
-# Select training period
-sub_corp <- corpus_subset(corp, '2014-01-01' <= date & date <= '2014-12-31')
-
-# Tokenize
-toks <- tokens(sub_corp)
-toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding = TRUE)
-toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
-
-# quanteda v1.5 introduced 'nested_scope' to reduce ambiguity in dictionary lookup
-toks_label <- tokens_lookup(toks, data_dictionary_newsmap_en, 
-                            levels = 3, nested_scope = "dictionary")
-dfmt_label <- dfm(toks_label)
-
-dfmt_feat <- dfm(toks, tolower = FALSE)
-dfmt_feat <- dfm_select(dfmt_feat, selection = "keep", '^[A-Z][A-Za-z1-2]+', 
-                        valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
-dfmt_feat <- dfm_trim(dfmt_feat, min_termfreq = 10)
-
-model <- textmodel_newsmap(dfmt_feat, dfmt_label)
-
-# Features with largest weights
-coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
+map <- textmodel_wordmap(dfmt_feat, dfmt_label, entropy = "local")
+coef(map)
+pred <- predict(map)
+dat <- data.frame(corp, pred)
+View(dat)
 ```
 
 ### Predict geographical focus of texts 
