@@ -1,39 +1,27 @@
 
-# Newsmap: geographical document classifier
+# Wordmap: Semi-supervised Multinomial Document Classifier
 
-<!-- badges: start -->
+**wordmap** is a naive Bayesian model for multinomial document
+classification originally created for
+[Newsmap](https://github.com/koheiw/newsmap). **wordmap** is separated
+from **newsmap** to expand the score of its application beyond
+geographical classification of news.
 
-[![CRAN
-Version](https://www.r-pkg.org/badges/version/newsmap)](https://CRAN.R-project.org/package=newsmap)
-[![Downloads](https://cranlogs.r-pkg.org/badges/newsmap)](https://CRAN.R-project.org/package=newsmap)
-[![Total
-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/newsmap?color=orange)](https://CRAN.R-project.org/package=newsmap)
-[![R build
-status](https://github.com/koheiw/newsmap/workflows/R-CMD-check/badge.svg)](https://github.com/koheiw/newsmap/actions)
-[![codecov](https://codecov.io/gh/koheiw/newsmap/branch/master/graph/badge.svg)](https://codecov.io/gh/koheiw/newsmap)
-<!-- badges: end -->
-
-Semi-supervised Bayesian model for geographical document classification.
-Newsmap automatically constructs a large geographical dictionary from a
-corpus to accurate classify documents. Currently, the **newsmap**
-package contains seed dictionaries in multiple languages that include
-*English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*,
-*Italian*, *Arabic*, *Turkish*, *Hebrew*, *Japanese*, *Chinese*.
-
-The detail of the algorithm is explained in [Newsmap: semi-supervised
-approach to geographical news
-classification](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full).
-**newsmap** has also been used in scientific research in various fields
-([Google
-Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=3438152153062747083)).
+The semi-supervised classifier has been used to for various purposes
+such as classificaiton of [speeches in terms of
+topics](https://journals.sagepub.com/doi/full/10.1177/0894439320907027).
+The simplicity of naive Bayesian algorithm makes it useful for
+extracting features from vary larger corpora to create dictionaries The
+detail of the algorithm is explained in [Watanabe
+(2018)](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full).
 
 ## How to install
 
-**newsmap** is available on CRAN since the version 0.6. You can install
-the package using R Studio GUI or the command.
+**wordmap** is available on CRAN since the v1.0. You can install the
+package using the R command.
 
 ``` r
-install.packages("newsmap")
+install.packages("wordmap")
 ```
 
 If you want to the latest version, please install by running this
@@ -46,14 +34,10 @@ devtools::install_github("koheiw/wordmap")
 
 ## Example
 
-In this example, using a text analysis package
-[**quanteda**](https://quanteda.io) for preprocessing of textual data,
-we train a geographical classification model on a [corpus of news
-summaries collected from Yahoo
-News](https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1) via
-RSS in 2014.
-
-### Download example data
+`data_corpus_ungd2017` contains transcripts of speeches delivered at the
+United Nations General Assembly in 2017. The dictionary is adopted from
+[Watanabe & Zhou
+(2020)](https://journals.sagepub.com/doi/full/10.1177/0894439320907027).
 
 ``` r
 require(quanteda)
@@ -78,6 +62,24 @@ require(wordmap)
 ``` r
 
 dict <- dictionary(file = "dict/dictionary.yml")
+print(dict)
+## Dictionary object with 6 key entries.
+## - [greeting]:
+##   - greet*, thank*, congratulat*, sir, express*
+## - [un]:
+##   - united nations, international court*, security council, general assembly, organization*, reform*, secretary-general, resolution*, permanent member*, charter*, session*, conference*
+## - [security]:
+##   - secur*, kill*, attack*, dispute*, victim*, peac*, terror*, weapon*, nuclear*, conflict*, war*, disarmament*, threat*, cris*, solution*, settlement*, force*, destruction*, militar*, violence* [ ... and 2 more ]
+## - [human]:
+##   - human rights, violat*, race*, dignit*, protect*, citizen*, educat*
+## - [democracy]:
+##   - democra*, autocra*, dictator*, vote*, represent*, elect*, leader*, president*, government*, leadership*
+## - [development]:
+##   - develop*, market*, investment*, econom*, climate change, assistance*, sustain*, povert*, trade*, grow*, social*, environment*, prosperit*, progress*, financ*, cooperation*
+```
+
+``` r
+
 corp <- data_corpus_ungd2017 %>% 
     corpus_reshape()
 
@@ -150,19 +152,22 @@ dat <- data.frame(text = corp, topic = predict(map))
 
 ### Create a dictionary
 
+Create a **quanteda** dictionary object from the extracted features. The
+dictionary can use to perform analysis of other corpora.
+
 ``` r
-as.dictionary(map, n = 20)
+as.dictionary(map, n = 100)
 ## Dictionary object with 6 key entries.
 ## - [greeting]:
-##   - express, congratulate, thank, thanks, congratulations, expressed, greetings, expression, sir, congratulating, expressing, lajčák, miroslav, expresses, congratulates, outset, expressions, warm, lajcak, lajcák
+##   - express, congratulate, thank, thanks, congratulations, expressed, greetings, expression, sir, congratulating, expressing, lajčák, miroslav, expresses, congratulates, outset, expressions, warm, lajcak, lajcák [ ... and 80 more ]
 ## - [un]:
-##   - session, organization, reform, secretary-general, resolution, resolutions, conference, charter, organizations, reforms, seventy-second, seventy-first, seventy, organization's, reforming, commissioner, lajčák, miroslav, reformed, repositioning
+##   - session, organization, reform, secretary-general, resolution, resolutions, conference, charter, organizations, reforms, seventy-second, seventy-first, seventy, organization's, reforming, commissioner, lajčák, miroslav, reformed, repositioning [ ... and 80 more ]
 ## - [security]:
-##   - peace, security, nuclear, terrorism, weapons, conflict, war, peaceful, conflicts, threat, solution, crisis, violence, fight, threats, terrorist, force, military, crises, destruction
+##   - peace, security, nuclear, terrorism, weapons, conflict, war, peaceful, conflicts, threat, solution, crisis, violence, fight, threats, terrorist, force, military, crises, destruction [ ... and 80 more ]
 ## - [human]:
-##   - citizens, education, protect, protection, dignity, violations, protecting, violation, protected, race, violate, violated, citizenship, educational, citizen, violates, protectionism, educated, violating, protects
+##   - citizens, education, protect, protection, dignity, violations, protecting, violation, protected, race, violate, violated, citizenship, educational, citizen, violates, protectionism, educated, violating, protects [ ... and 80 more ]
 ## - [democracy]:
-##   - government, president, democratic, democracy, leadership, leaders, election, governments, elections, represent, representative, government's, represents, elected, represented, representation, representatives, leader, electoral, president's
+##   - government, president, democratic, democracy, leadership, leaders, election, governments, elections, represent, representative, government's, represents, elected, represented, representation, representatives, leader, electoral, president's [ ... and 80 more ]
 ## - [development]:
-##   - development, sustainable, economic, cooperation, social, poverty, progress, developing, environment, assistance, prosperity, growth, economy, financial, trade, developed, financing, investment, environmental, growing
+##   - development, sustainable, economic, cooperation, social, poverty, progress, developing, environment, assistance, prosperity, growth, economy, financial, trade, developed, financing, investment, environmental, growing [ ... and 80 more ]
 ```

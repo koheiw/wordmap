@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "##",
@@ -10,30 +10,18 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Newsmap: geographical document classifier
+# Wordmap: Semi-supervised Multinomial Document Classifier
 
-<!-- badges: start -->
+**wordmap** is a naive Bayesian model for multinomial document classification originally created for [Newsmap](https://github.com/koheiw/newsmap). **wordmap** is separated from **newsmap** to expand the score of its application beyond geographical classification of news.
 
-[![CRAN
-Version](https://www.r-pkg.org/badges/version/newsmap)](https://CRAN.R-project.org/package=newsmap)
-[![Downloads](https://cranlogs.r-pkg.org/badges/newsmap)](https://CRAN.R-project.org/package=newsmap)
-[![Total
-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/newsmap?color=orange)](https://CRAN.R-project.org/package=newsmap)
-[![R build
-status](https://github.com/koheiw/newsmap/workflows/R-CMD-check/badge.svg)](https://github.com/koheiw/newsmap/actions)
-[![codecov](https://codecov.io/gh/koheiw/newsmap/branch/master/graph/badge.svg)](https://codecov.io/gh/koheiw/newsmap)
-<!-- badges: end -->
-
-Semi-supervised Bayesian model for geographical document classification. Newsmap automatically constructs a large geographical dictionary from a corpus to accurate classify documents. Currently, the **newsmap** package contains seed dictionaries in multiple languages that include *English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*, *Italian*, *Arabic*, *Turkish*, *Hebrew*, *Japanese*, *Chinese*.
-
-The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in scientific research in various fields ([Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=3438152153062747083)).
+The semi-supervised classifier has been used to for various purposes such as classificaiton of [speeches in terms of topics](https://journals.sagepub.com/doi/full/10.1177/0894439320907027). The simplicity of naive Bayesian algorithm makes it useful for extracting features from vary larger corpora to create dictionaries The detail of the algorithm is explained in [Watanabe (2018)](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). 
 
 ## How to install
 
-**newsmap** is available on CRAN since the version 0.6. You can install the package using R Studio GUI or the command.
+**wordmap** is available on CRAN since the v1.0. You can install the package using the R command.
 
 ```{r, eval=FALSE}
-install.packages("newsmap")
+install.packages("wordmap")
 ```
 
 If you want to the latest version, please install by running this command in R. You need to have **devtools** installed beforehand.
@@ -45,15 +33,15 @@ devtools::install_github("koheiw/wordmap")
 
 ## Example
 
-In this example, using a text analysis package [**quanteda**](https://quanteda.io) for preprocessing of textual data, we train a geographical classification model on a [corpus of news summaries collected from Yahoo News](https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1) via RSS in 2014.
-
-### Download example data
+`data_corpus_ungd2017` contains transcripts of speeches delivered at the United Nations General Assembly in 2017. The dictionary is adopted from [Watanabe & Zhou (2020)](https://journals.sagepub.com/doi/full/10.1177/0894439320907027).
 
 ```{r}
 require(quanteda)
 require(wordmap)
 
 dict <- dictionary(file = "dict/dictionary.yml")
+print(dict)
+
 corp <- data_corpus_ungd2017 %>% 
     corpus_reshape()
 
@@ -79,6 +67,8 @@ knitr::kable(head(dat, 10))
 ```
 ### Create a dictionary
 
+Create a **quanteda** dictionary object from the extracted features. The dictionary can use to perform analysis of other corpora.
+
 ```{r}
-as.dictionary(map, n = 20)
+as.dictionary(map, n = 100)
 ```
