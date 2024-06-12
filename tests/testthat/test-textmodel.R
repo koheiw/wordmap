@@ -1,9 +1,11 @@
 require(quanteda)
 
+dict_newsmap <- dictionary(file = "data/dictionary.yml")
+
 toks_test <- tokens(data_corpus_inaugural, remove_punct = TRUE)
 dfmt_test <- dfm(toks_test) %>%
     dfm_remove(stopwords("en"))
-toks_dict_test <- tokens_lookup(toks_test, newsmap::data_dictionary_newsmap_en, level = 3)
+toks_dict_test <- tokens_lookup(toks_test, dict_newsmap, level = 3)
 dfmt_dict_test <- dfm(toks_dict_test)
 
 test_that("textmodel_wordmap() works with different inputs", {
@@ -84,7 +86,7 @@ test_that("methods for textmodel_wordmap works correctly", {
               "Titanic departed Cork Harbour in 1912.")
 
     toks <- tokens(txt)
-    label_toks <- tokens_lookup(toks, newsmap::data_dictionary_newsmap_en, levels = 3)
+    label_toks <- tokens_lookup(toks, dict_newsmap, levels = 3)
     label_dfm <- dfm(label_toks)
 
     feat_dfm <- dfm(toks, tolower = FALSE) %>%
@@ -166,7 +168,7 @@ test_that("label and drop_label are working", {
              "India and Pakistan are neighbours.",
              "A man went to the Moon.")
     toks <- tokens(txt)
-    toks_label <- tokens_lookup(toks, newsmap::data_dictionary_newsmap_en, levels = 3)
+    toks_label <- tokens_lookup(toks, dict_newsmap, levels = 3)
     dfmt <- dfm(toks)
     dfmt_label <- dfm(toks_label)
 
@@ -205,7 +207,7 @@ test_that("afe() is working", {
              "India and Pakistan are neighbours.",
              "A man went to the Moon.")
     toks <- tokens(txt)
-    toks_label <- tokens_lookup(toks, newsmap::data_dictionary_newsmap_en, levels = 3)
+    toks_label <- tokens_lookup(toks, dict_newsmap, levels = 3)
     dfmt <- dfm(toks)
     dfmt_label <- dfm(toks_label)
 
