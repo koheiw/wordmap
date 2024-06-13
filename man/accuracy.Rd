@@ -2,17 +2,30 @@
 % Please edit documentation in R/textmodel.R
 \name{accuracy}
 \alias{accuracy}
+\alias{summary.textmodel_wordmap_accuracy}
 \title{Evaluate classification accuracy in precision and recall}
 \usage{
 accuracy(x, y)
+
+\method{summary}{textmodel_wordmap_accuracy}(object, ...)
 }
 \arguments{
 \item{x}{vector of predicted classes}
 
 \item{y}{vector of true classes}
+
+\item{object}{output of \code{accuracy()}.}
+
+\item{...}{not used.}
 }
 \description{
-Evaluate classification accuracy in precision and recall
+\code{accuracy()} counts a data.frame that contains number true positive
+(tp), false positive (fp), true negative (tn) and false negative (fn) cases
+for each predicted class and calculates precision, recall and F1 score
+based on these counts.
+\code{summary()} calculates micro-average precision (p) and recall (r) and
+macro-average precision (P) and recall (R) based on the output of
+\code{accuracy()}.
 }
 \examples{
 class_pred <- c('US', 'GB', 'US', 'CN', 'JP', 'FR', 'CN') # prediction

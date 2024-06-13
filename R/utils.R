@@ -1,11 +1,5 @@
-#' @keywords internal
-#' @export
-#' @method as.list textmodel_wordmap
-#' @param ... passed to [coef.textmodel_wordmap]
-as.list.textmodel_wordmap <- function(x, ...) {
-    lapply(coef(x, ...), names)
-}
-
+#' Extract features with largest coefficients from a wordmap model
+#' @rdname as.dictionary
 #' @export
 #' @param separator the character in between multi-word dictionary values. If
 #'   `NULL`, `x$concatenator` will be used.
@@ -15,6 +9,15 @@ as.dictionary.textmodel_wordmap <- function(x, separator = NULL, ...) {
         separator <- x$concatenator
     dictionary(lapply(coef(x, ...), names), separator = separator)
 }
+
+#' @rdname as.dictionary
+#' @export
+#' @method as.list textmodel_wordmap
+#' @param ... passed to [coef.textmodel_wordmap]
+as.list.textmodel_wordmap <- function(x, ...) {
+    lapply(coef(x, ...), names)
+}
+
 
 #' @export
 #' @method print textmodel_wordmap

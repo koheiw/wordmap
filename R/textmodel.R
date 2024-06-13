@@ -1,7 +1,6 @@
 #' Semi-supervised Bayesian model for multinomial document classification
 #'
-#' Train a Newsmap model to predict geographical focus of documents with labels
-#' given by a dictionary.
+#' Train a Wordmap model using labels given by a dictionary analysis.
 #' @param x a dfm or fcm created by [quanteda::dfm()]
 #' @param y a dfm or a sparse matrix that record class membership of the
 #'   documents. It can be created applying [quanteda::dfm_lookup()] to `x`.
@@ -19,7 +18,7 @@
 #'   labels if `global` or over documents with the same labels if `local`. Local
 #'   entropy is averaged if `average`. See the details.
 #' @param ... additional arguments passed to internal functions.
-#' @details Newsmap learns association between words and classes as likelihood
+#' @details Wordsmap learns association between words and classes as likelihood
 #'   ratios based on the features in `x` and the labels in `y`. The large
 #'   likelihood ratios tend to concentrate to a small number of features but the
 #'   entropy of their frequencies over labels or documents helps to disperse the
@@ -33,17 +32,25 @@
 #' @export
 #' @examples
 #' require(quanteda)
-#' text_en <- c(text1 = "This is an article about Ireland.",
-#'              text2 = "The South Korean prime minister was re-elected.")
 #'
-#' toks_en <- tokens(text_en)
-#' label_toks_en <- tokens_lookup(toks_en, newsmap::data_dictionary_newsmap_en, levels = 3)
-#' label_dfm_en <- dfm(label_toks_en)
+#' # split into sentences
+#' corp <- corpus_reshape(data_corpus_ungd2017)
 #'
-#' feat_dfm_en <- dfm(toks_en, tolower = FALSE)
+#' # tokenize
+#' toks <- tokens(corp, remove_punct = TRUE) %>%
+#'    tokens_remove(stopwords("en"))
 #'
-#' model_en <- textmodel_wordmap(feat_dfm_en, label_dfm_en)
-#' predict(model_en)
+#' # apply seed dictionary
+#' toks_dict <- tokens_lookup(toks, data_dictionary_topic)
+#'
+#' # form dfm
+#' dfmt_feat <- dfm(toks)
+#' dfmt_dict <- dfm(toks_dict)
+#'
+#' # fit wordmap model
+#' map <- textmodel_wordmap(dfmt_feat, dfmt_dict)
+#' coef(map)
+#' predict(map)
 #'
 #' @export
 textmodel_wordmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
@@ -157,7 +164,8 @@ summary.textmodel_wordmap <- function(object, n = 10, ...) {
 }
 
 #' Extract coefficients for features
-#' @param object a Newsmap model fitted by [textmodel_wordmap()].
+#' @rdname coef
+#' @param object a textmodel object fitted by [textmodel_wordmap()].
 #' @param n the number of coefficients to extract.
 #' @param select returns the coefficients for the selected class; specify by the
 #'   names of rows in `object$model`.
@@ -196,7 +204,7 @@ coef.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
     return(result)
 }
 
-#' @rdname coef.textmodel_wordmap
+#' @rdname coef
 #' @method coefficients textmodel_wordmap
 #' @importFrom stats coefficients
 #' @export
@@ -206,10 +214,13 @@ coefficients.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
 
 #' Evaluate classification accuracy in precision and recall
 #'
-# Retuns a confusion matrix that contains number true positive (tp), fales
-# positive (fp), true negative (tn) and false negative (fn) cases for each
-# predicted class. It also calculates precision, recall and F1 score based on
-# these counts.
+#' `accuracy()` counts a data.frame that contains number true positive
+#' (tp), false positive (fp), true negative (tn) and false negative (fn) cases
+#' for each predicted class and calculates precision, recall and F1 score
+#' based on these counts.
+#' `summary()` calculates micro-average precision (p) and recall (r) and
+#' macro-average precision (P) and recall (R) based on the output of
+#' `accuracy()`.
 #' @param x vector of predicted classes
 #' @param y vector of true classes
 #' @export
@@ -241,12 +252,8 @@ accuracy <- function(x, y) {
     return(result)
 }
 
-#' Calculate micro and macro average measures of accuracy
-#'
-#' This function calculates micro-average precision (p) and recall (r) and
-#' macro-average precision (P) and recall (R) based on a confusion matrix from
-#' `accuracy()`.
-#' @param object output of accuracy()
+#' @rdname accuracy
+#' @param object output of `accuracy()`.
 #' @param ... not used.
 #' @method summary textmodel_wordmap_accuracy
 #' @export

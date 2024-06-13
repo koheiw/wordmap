@@ -44,11 +44,10 @@ entropy is averaged if \code{average}. See the details.}
 \item{...}{additional arguments passed to internal functions.}
 }
 \description{
-Train a Newsmap model to predict geographical focus of documents with labels
-given by a dictionary.
+Train a Wordmap model using labels given by a dictionary analysis.
 }
 \details{
-Newsmap learns association between words and classes as likelihood
+Wordsmap learns association between words and classes as likelihood
 ratios based on the features in \code{x} and the labels in \code{y}. The large
 likelihood ratios tend to concentrate to a small number of features but the
 entropy of their frequencies over labels or documents helps to disperse the
@@ -56,17 +55,25 @@ distribution.
 }
 \examples{
 require(quanteda)
-text_en <- c(text1 = "This is an article about Ireland.",
-             text2 = "The South Korean prime minister was re-elected.")
 
-toks_en <- tokens(text_en)
-label_toks_en <- tokens_lookup(toks_en, newsmap::data_dictionary_newsmap_en, levels = 3)
-label_dfm_en <- dfm(label_toks_en)
+# split into sentences
+corp <- corpus_reshape(data_corpus_ungd2017)
 
-feat_dfm_en <- dfm(toks_en, tolower = FALSE)
+# tokenize
+toks <- tokens(corp, remove_punct = TRUE) \%>\%
+   tokens_remove(stopwords("en"))
 
-model_en <- textmodel_wordmap(feat_dfm_en, label_dfm_en)
-predict(model_en)
+# apply seed dictionary
+toks_dict <- tokens_lookup(toks, data_dictionary_topic)
+
+# form dfm
+dfmt_feat <- dfm(toks)
+dfmt_dict <- dfm(toks_dict)
+
+# fit wordmap model
+map <- textmodel_wordmap(dfmt_feat, dfmt_dict)
+coef(map)
+predict(map)
 
 }
 \references{

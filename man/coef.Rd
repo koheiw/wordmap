@@ -10,7 +10,7 @@
 \method{coefficients}{textmodel_wordmap}(object, n = 10, select = NULL, ...)
 }
 \arguments{
-\item{object}{a Newsmap model fitted by \code{\link[=textmodel_wordmap]{textmodel_wordmap()}}.}
+\item{object}{a textmodel object fitted by \code{\link[=textmodel_wordmap]{textmodel_wordmap()}}.}
 
 \item{n}{the number of coefficients to extract.}
 
