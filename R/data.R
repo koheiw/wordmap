@@ -30,3 +30,16 @@
 #'   As Data: Introducing the UN General Debate Corpus](10.1177/2053168017712821). *Research and
 #'   Politics* 4(2): 1--9.
 "data_corpus_ungd2017"
+
+#' Seed topic dictionary
+#'
+#' A dictionary with seed words for size common topics at the United Nations
+#' General Assembly.
+#' @name data_dictionary_topic
+#' @docType data
+#' @author Kohei Watanabe \email{watanabe.kohei@gmail.com}
+#' @references Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of
+#'   Large Corpora: Semisupervised Topic Classification of the UN Speeches".
+#'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
+#' @keywords data
+NULL
