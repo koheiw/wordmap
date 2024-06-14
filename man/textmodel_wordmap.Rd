@@ -2,7 +2,7 @@
 % Please edit documentation in R/textmodel.R
 \name{textmodel_wordmap}
 \alias{textmodel_wordmap}
-\title{Semi-supervised Bayesian model for multinomial document classification}
+\title{Semi-supervised model for multinomial document classification}
 \usage{
 textmodel_wordmap(
   x,
@@ -44,10 +44,12 @@ entropy is averaged if \code{average}. See the details.}
 \item{...}{additional arguments passed to internal functions.}
 }
 \description{
-Train a Wordmap model using labels given by a dictionary analysis.
+Wordmap is a semi-supervised Bayesian model for multinomial document
+classification. Wordmap models can be fitted using labels that were created
+from document meta-data or given by dictionary analysis.
 }
 \details{
-Wordsmap learns association between words and classes as likelihood
+Wordmap learns association between words and classes as likelihood
 ratios based on the features in \code{x} and the labels in \code{y}. The large
 likelihood ratios tend to concentrate to a small number of features but the
 entropy of their frequencies over labels or documents helps to disperse the
@@ -77,6 +79,12 @@ predict(map)
 
 }
 \references{
-Kohei Watanabe. 2018. "\href{https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap: semi-supervised approach to geographical news classification.}"
-\emph{Digital Journalism} 6(3): 294-309.
+Watanabe, Kohei (2018). "Newsmap: semi-supervised approach to
+geographical news
+classification". doi.org/10.1080/21670811.2017.1293487"
+\emph{Digital Journalism}.
+
+Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of
+Large Corpora: Semisupervised Topic Classification of the UN Speeches".
+doi:10.1177/0894439320907027. \emph{Social Science Computer Review}.
 }

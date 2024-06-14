@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo=FALSE, message=FALSE}
@@ -12,13 +14,13 @@ knitr::opts_chunk$set(
 
 # Wordmap: Semi-supervised Multinomial Document Classifier
 
-**wordmap** is a naive Bayesian model for multinomial document classification originally created for [Newsmap](https://github.com/koheiw/newsmap). **wordmap** is separated from **newsmap** to expand the score of its application beyond geographical classification of news.
+**wordmap** is a semi-supervised algorithm for multinomial document classification originally created for [newsmap](https://github.com/koheiw/newsmap). **wordmap** is separated from **newsmap** to expand the score of its application beyond geographical classification of news. 
 
-The semi-supervised classifier has been used to for various purposes such as classificaiton of [speeches in terms of topics](https://journals.sagepub.com/doi/full/10.1177/0894439320907027). The simplicity of naive Bayesian algorithm makes it useful for extracting features from vary larger corpora to create dictionaries The detail of the algorithm is explained in [Watanabe (2018)](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). 
+The algorithm is also useful in extracting features associated with document meta-data (industry group, patent class etc.) from vary larger corpora. The list of features could be used to create a lexicon to perform dictionary analysis.
 
 ## How to install
 
-**wordmap** is available on CRAN since the v1.0. You can install the package using the R command.
+**wordmap** is available on CRAN since the v0.8.0 You can install the package using the R command.
 
 ```{r, eval=FALSE}
 install.packages("wordmap")
@@ -33,22 +35,25 @@ devtools::install_github("koheiw/wordmap")
 
 ## Example
 
-`data_corpus_ungd2017` contains transcripts of speeches delivered at the United Nations General Assembly in 2017. The dictionary is adopted from [Watanabe & Zhou (2020)](https://journals.sagepub.com/doi/full/10.1177/0894439320907027).
+In this example, we identify topics of sentences from using a seed topic dictionary adopted from [Watanabe & Zhou (2020)](https://journals.sagepub.com/doi/full/10.1177/0894439320907027).
+`data_corpus_ungd2017` contains transcripts of speeches delivered at the United Nations General Assembly in 2017.
 
 ```{r}
 require(quanteda)
 require(wordmap)
 
-dict <- dictionary(file = "dict/dictionary.yml")
+dict <- data_dictionary_topic
 print(dict)
 
 corp <- data_corpus_ungd2017 %>% 
     corpus_reshape()
 
 toks <- tokens(corp, remove_url = TRUE, remove_numbers = TRUE) %>% 
-    tokens_remove(stopwords("en"), min_nchar = 2, padding = TRUE)
+    tokens_remove(stopwords("en"), min_nchar = 2, padding = TRUE) #%>% 
+    #tokens_remove("^[A-Z]", valuetype = "regex", case_insensitive = FALSE, padding = TRUE)
     
-dfmt_feat <- dfm(toks, remove_padding = TRUE)
+dfmt_feat <- dfm(toks, remove_padding = TRUE) %>% 
+    dfm_trim(min_termfreq = 5)
 dfmt_label <- tokens_lookup(toks, dict) %>% 
     dfm()
 
@@ -65,6 +70,7 @@ dat <- data.frame(text = corp, topic = predict(map))
 ```{r echo=FALSE}
 knitr::kable(head(dat, 10))
 ```
+
 ### Create a topic dictionary
 
 Create a **quanteda** dictionary object from the extracted features. The dictionary could be use to perform analysis of other corpora.

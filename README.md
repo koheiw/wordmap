@@ -1,23 +1,20 @@
 
 # Wordmap: Semi-supervised Multinomial Document Classifier
 
-**wordmap** is a naive Bayesian model for multinomial document
+**wordmap** is a semi-supervised algorithm for multinomial document
 classification originally created for
-[Newsmap](https://github.com/koheiw/newsmap). **wordmap** is separated
+[newsmap](https://github.com/koheiw/newsmap). **wordmap** is separated
 from **newsmap** to expand the score of its application beyond
 geographical classification of news.
 
-The semi-supervised classifier has been used to for various purposes
-such as classificaiton of [speeches in terms of
-topics](https://journals.sagepub.com/doi/full/10.1177/0894439320907027).
-The simplicity of naive Bayesian algorithm makes it useful for
-extracting features from vary larger corpora to create dictionaries The
-detail of the algorithm is explained in [Watanabe
-(2018)](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full).
+The algorithm is also useful in extracting features associated with
+document meta-data (industry group, patent class etc.) from vary larger
+corpora. The list of features could be used to create a lexicon to
+perform dictionary analysis.
 
 ## How to install
 
-**wordmap** is available on CRAN since the v1.0. You can install the
+**wordmap** is available on CRAN since the v0.9.1 You can install the
 package using the R command.
 
 ``` r
@@ -34,10 +31,11 @@ devtools::install_github("koheiw/wordmap")
 
 ## Example
 
-`data_corpus_ungd2017` contains transcripts of speeches delivered at the
-United Nations General Assembly in 2017. The dictionary is adopted from
-[Watanabe & Zhou
+In this example, we identify topics of sentences from using a seed topic
+dictionary adopted from [Watanabe & Zhou
 (2020)](https://journals.sagepub.com/doi/full/10.1177/0894439320907027).
+`data_corpus_ungd2017` contains transcripts of speeches delivered at the
+United Nations General Assembly in 2017.
 
 ``` r
 require(quanteda)
@@ -55,13 +53,11 @@ require(quanteda)
 ``` r
 require(wordmap)
 ## Loading required package: wordmap
-## Warning in .recacheSubclasses(def@className, def, env): undefined subclass
-## "ndiMatrix" of class "replValueSp"; definition not updated
 ```
 
 ``` r
 
-dict <- dictionary(file = "dict/dictionary.yml")
+dict <- data_dictionary_topic
 print(dict)
 ## Dictionary object with 6 key entries.
 ## - [greeting]:
@@ -84,9 +80,11 @@ corp <- data_corpus_ungd2017 %>%
     corpus_reshape()
 
 toks <- tokens(corp, remove_url = TRUE, remove_numbers = TRUE) %>% 
-    tokens_remove(stopwords("en"), min_nchar = 2, padding = TRUE)
+    tokens_remove(stopwords("en"), min_nchar = 2, padding = TRUE) #%>% 
+    #tokens_remove("^[A-Z]", valuetype = "regex", case_insensitive = FALSE, padding = TRUE)
     
-dfmt_feat <- dfm(toks, remove_padding = TRUE)
+dfmt_feat <- dfm(toks, remove_padding = TRUE) %>% 
+    dfm_trim(min_termfreq = 5)
 dfmt_label <- tokens_lookup(toks, dict) %>% 
     dfm()
 
@@ -94,41 +92,41 @@ map <- textmodel_wordmap(dfmt_feat, dfmt_label)
 coef(map)
 ## $greeting
 ##         express    congratulate           thank          thanks congratulations 
-##        7.277352        7.106288        7.044730        6.197432        6.037089 
+##        7.675771        7.504707        7.443149        6.595851        6.435508 
 ##       expressed       greetings      expression             sir  congratulating 
-##        5.763796        5.427324        5.386502        5.299490        5.098820 
+##        6.162215        5.825743        5.784921        5.697909        5.497239 
 ## 
 ## $un
 ##           session      organization            reform secretary-general 
-##          6.828217          6.817435          6.603732          6.527039 
+##          6.882983          6.872202          6.658498          6.581806 
 ##        resolution       resolutions        conference           charter 
-##          6.116124          5.994235          5.981812          5.975542 
+##          6.170891          6.049001          6.036579          6.030309 
 ##     organizations           reforms 
-##          5.841112          5.551029 
+##          5.895879          5.605796 
 ## 
 ## $security
 ##     peace  security   nuclear terrorism   weapons  conflict       war  peaceful 
-##  7.668924  7.528566  6.517346  6.515252  6.266629  6.191280  6.038095  5.975356 
+##  7.680667  7.540309  6.529089  6.526995  6.278372  6.203023  6.049838  5.987099 
 ## conflicts    threat 
-##  5.931232  5.840797 
+##  5.942974  5.852540 
 ## 
 ## $human
 ##   citizens  education    protect protection    dignity violations protecting 
-##   7.012266   6.894483   6.740332   6.574540   6.470999   6.074584   5.830962 
+##   7.244883   7.127100   6.972950   6.807157   6.703617   6.307201   6.063579 
 ##  violation  protected       race 
-##   5.554708   5.554708   5.171716 
+##   5.787326   5.787326   5.404334 
 ## 
 ## $democracy
 ##  government   president  democratic   democracy  leadership     leaders 
-##    7.784677    7.360770    6.921754    6.508384    6.440665    6.289694 
+##    7.933901    7.509994    7.070978    6.657607    6.589889    6.438918 
 ##    election governments   elections   represent 
-##    6.259617    5.999540    5.589112    5.558807 
+##    6.408841    6.148764    5.738336    5.708031 
 ## 
 ## $development
 ## development sustainable    economic cooperation      social     poverty 
-##    8.016598    7.495269    7.006202    6.684847    6.367819    6.233840 
+##    8.045268    7.523939    7.034871    6.713516    6.396488    6.262509 
 ##    progress  developing environment  assistance 
-##    6.201050    6.014274    5.885831    5.833736
+##    6.229719    6.042943    5.914501    5.862406
 ```
 
 ### Predict topics of sentences
@@ -145,7 +143,7 @@ dat <- data.frame(text = corp, topic = predict(map))
 | Afghanistan.4  | There can be little doubt that today the scale, scope and speed of their imagination and efforts have not yet been matched.                                                                                           | security    |
 | Afghanistan.5  | But future historians will judge those institutions on how they respond to the challenges of today and the challenges we must confront in the future.                                                                 | development |
 | Afghanistan.6  | As global leaders, we seek certainty and familiarity in the rules of the game that dominated the twentieth century.                                                                                                   | democracy   |
-| Afghanistan.7  | But in today’s ever-changing world, the dominant contextual characteristic defining our times is extreme uncertainty.                                                                                                 | human       |
+| Afghanistan.7  | But in today’s ever-changing world, the dominant contextual characteristic defining our times is extreme uncertainty.                                                                                                 | security    |
 | Afghanistan.8  | It is easy to illustrate this uncertainty by looking at threats we are facing - to our economies, our security and our values.                                                                                        | security    |
 | Afghanistan.9  | There is an emerging consensus that advanced economies have yet to arrive at proper growth models to overcome high unemployment, decreasing income and wealth inequality.                                             | development |
 | Afghanistan.10 | The threat of economic crisis, therefore, still hangs over us.                                                                                                                                                        | security    |
@@ -159,7 +157,7 @@ dictionary could be use to perform analysis of other corpora.
 as.dictionary(map, n = 100)
 ## Dictionary object with 6 key entries.
 ## - [greeting]:
-##   - express, congratulate, thank, thanks, congratulations, expressed, greetings, expression, sir, congratulating, expressing, lajčák, miroslav, expresses, congratulates, outset, expressions, warm, lajcak, lajcák [ ... and 80 more ]
+##   - express, congratulate, thank, thanks, congratulations, expressed, greetings, expression, sir, congratulating, expressing, lajčák, miroslav, expresses, congratulates, outset, expressions, warm, election, warmly [ ... and 80 more ]
 ## - [un]:
 ##   - session, organization, reform, secretary-general, resolution, resolutions, conference, charter, organizations, reforms, seventy-second, seventy-first, seventy, organization's, reforming, commissioner, lajčák, miroslav, reformed, repositioning [ ... and 80 more ]
 ## - [security]:

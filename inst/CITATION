@@ -1,14 +1,12 @@
 bibentry(
-    bibtype = "manual",
-    author = "Kohei Watanabe",
-    title = "Newsmap",
-    journal = "Digital Journalism",
-    volume = "6",
-    number = "3",
-    pages = "294-309",
-    year  = "2018",
-    publisher = "Routledge",
-    doi = "10.1080/21670811.2017.1293487",
-    URL = "https://doi.org/10.1080/21670811.2017.1293487",
-    eprint = "https://doi.org/10.1080/21670811.2017.1293487"
+  bibtype  = "Article",
+  title    = "Theory-Driven Analysis of Large Corpora: Semisupervised Topic Classification of the UN Speeches",
+  author = c(person(c("Kohei", "Watanabe"),
+             person(c("Yuan", "Zhou")))),
+  journal  = "Social Science Computer Review",
+  year     = "2020",
+  volume   = "40",
+  number   = "2",
+  pages    = "346–366",
+  doi      = "doi:10.1177/0894439320907027"
 )

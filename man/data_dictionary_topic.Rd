@@ -4,9 +4,15 @@
 \name{data_dictionary_topic}
 \alias{data_dictionary_topic}
 \title{Seed topic dictionary}
+\format{
+An object of class \code{dictionary2} of length 6.
+}
+\usage{
+data_dictionary_topic
+}
 \description{
 A dictionary with seed words for size common topics at the United Nations
-General Assembly.
+General Assembly (Watanabe and Zhou, 2020).
 }
 \references{
 Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of

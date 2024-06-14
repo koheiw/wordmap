@@ -1,10 +1,10 @@
 Package: wordmap
 Type: Package
 Title: Semi-Supervised Algorithm for Multinomial Document Classification
-Version: 0.9.1
+Version: 0.8.0
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
-Description: Semissupervised model for multinomial document classification (Watanabe 2018) <doi:10.1080/21670811.2017.1293487>. 
+Description: Semi-supervised model for multinomial document classification (Watanabe & Zhou 2020) <doi:10.1177/0894439320907027>. 
 License: MIT + file LICENSE
 URL: https://github.com/koheiw/wordmap
 BugReports: https://github.com/koheiw/wordmap/issues
@@ -17,7 +17,6 @@ Imports:
     utils,
     Matrix,
     quanteda (>= 2.1),
-    quanteda.textstats,
     stringi
 Suggests:
     testthat,

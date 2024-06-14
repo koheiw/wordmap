@@ -1,8 +1,8 @@
 
-#' Prediction method for textmodel_wordmap
+#' Predict the most likely class of documents
 #'
-#' Predict document class using trained a Newsmap model
-#' @param object a fitted Newsmap textmodel.
+#' Predict document class using fitted Wordmap models.
+#' @param object a model fitted by [textmodel_wordmap()].
 #' @param newdata dfm on which prediction should be made.
 #' @param confidence if `TRUE`, it returns likelihood ratio score.
 #' @param rank rank of the class to be predicted. Only used when `type = "top"`.

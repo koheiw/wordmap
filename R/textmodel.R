@@ -1,6 +1,8 @@
-#' Semi-supervised Bayesian model for multinomial document classification
+#' Semi-supervised model for multinomial document classification
 #'
-#' Train a Wordmap model using labels given by a dictionary analysis.
+#' Wordmap is a semi-supervised Bayesian model for multinomial document
+#' classification. Wordmap models are usually fitted using labels given by
+#' dictionary analysis or document meta-data.
 #' @param x a dfm or fcm created by [quanteda::dfm()]
 #' @param y a dfm or a sparse matrix that record class membership of the
 #'   documents. It can be created applying [quanteda::dfm_lookup()] to `x`.
@@ -18,17 +20,19 @@
 #'   labels if `global` or over documents with the same labels if `local`. Local
 #'   entropy is averaged if `average`. See the details.
 #' @param ... additional arguments passed to internal functions.
-#' @details Wordsmap learns association between words and classes as likelihood
+#' @details Wordmap learns association between words and classes as likelihood
 #'   ratios based on the features in `x` and the labels in `y`. The large
 #'   likelihood ratios tend to concentrate to a small number of features but the
 #'   entropy of their frequencies over labels or documents helps to disperse the
 #'   distribution.
 #'
 #' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
-#' @references Kohei Watanabe. 2018. "[Newsmap: semi-supervised approach to
-#'   geographical news
-#'   classification.](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full)"
-#'    *Digital Journalism* 6(3): 294-309.
+#' @references Watanabe, Kohei (2018). "Newsmap: semi-supervised approach to
+#'   geographical news classification". doi.org/10.1080/21670811.2017.1293487"
+#'    *Digital Journalism*.
+#' @references Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of
+#'   Large Corpora: Semisupervised Topic Classification of the UN Speeches".
+#'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
 #' @export
 #' @examples
 #' require(quanteda)
@@ -163,9 +167,11 @@ summary.textmodel_wordmap <- function(object, n = 10, ...) {
     as.summary.textmodel(result)
 }
 
-#' Extract coefficients for features
-#' @rdname coef
-#' @param object a textmodel object fitted by [textmodel_wordmap()].
+#' Extract coefficients from a Wordmap model
+#'
+#' `coef()` returns coefficients of features as a list of numeric vector; the
+#' numeric vectors are soted in decending order by the sizes of coefficients.
+#' @param object a model fitted by [textmodel_wordmap()].
 #' @param n the number of coefficients to extract.
 #' @param select returns the coefficients for the selected class; specify by the
 #'   names of rows in `object$model`.
@@ -204,7 +210,7 @@ coef.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
     return(result)
 }
 
-#' @rdname coef
+#' @rdname coef.textmodel_wordmap
 #' @method coefficients textmodel_wordmap
 #' @importFrom stats coefficients
 #' @export
@@ -212,84 +218,31 @@ coefficients.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
     UseMethod("coef")
 }
 
-#' Evaluate classification accuracy in precision and recall
+#' Create lexicon from a Wordmap model
 #'
-#' `accuracy()` counts a data.frame that contains number true positive
-#' (tp), false positive (fp), true negative (tn) and false negative (fn) cases
-#' for each predicted class and calculates precision, recall and F1 score
-#' based on these counts.
-#' `summary()` calculates micro-average precision (p) and recall (r) and
-#' macro-average precision (P) and recall (R) based on the output of
-#' `accuracy()`.
-#' @param x vector of predicted classes
-#' @param y vector of true classes
+#' `as.list()` returns features with the largest coefficientsa as a list of
+#' character vector. `as.dictionary()` returns a [quanteda::dictionary] object
+#' that can be use for dictionary analysis.
+#' @param x a model fitted by [textmodel_wordmap()].
 #' @export
-#' @examples
-#' class_pred <- c('US', 'GB', 'US', 'CN', 'JP', 'FR', 'CN') # prediction
-#' class_true <- c('US', 'FR', 'US', 'CN', 'KP', 'EG', 'US') # true class
-#' acc <- accuracy(class_pred, class_true)
-#' print(acc)
-#' summary(acc)
-accuracy <- function(x, y) {
-
-    temp <- data.frame(test = x, true = y)
-    temp <- temp[!is.na(temp$true),,drop = FALSE] # remove unknown in true class
-
-    label <- sort(unique(temp$true))
-    result <- data.frame()
-    for(l in label){
-        tp <- sum(temp$true == l & temp$test == l, na.rm = TRUE)
-        fp <- sum(temp$true != l & temp$test == l, na.rm = TRUE)
-        tn <- sum(temp$true != l & temp$test != l, na.rm = TRUE)
-        fn <- sum(temp$true == l & temp$test != l, na.rm = TRUE)
-        precision <- tp / (tp + fp)
-        recall <- tp / (tp + fn)
-        f1 <- (2 * precision * recall) / (precision + recall)
-        result <- rbind(result, data.frame(tp, fp, tn, fn, precision, recall, f1))
-    }
-    class(result) <- c('textmodel_wordmap_accuracy', class(result))
-    rownames(result) <- label
-    return(result)
+#' @param separator the character in between multi-word dictionary values. If
+#'   `NULL`, `x$concatenator` will be used.
+#' @method as.dictionary textmodel_wordmap
+as.dictionary.textmodel_wordmap <- function(x, separator = NULL, ...) {
+    if (is.null(separator))
+        separator <- x$concatenator
+    dictionary(lapply(coef(x, ...), names), separator = separator)
 }
 
-#' @rdname accuracy
-#' @param object output of `accuracy()`.
-#' @param ... not used.
-#' @method summary textmodel_wordmap_accuracy
+#' @rdname as.dictionary.textmodel_wordmap
 #' @export
-summary.textmodel_wordmap_accuracy <- function(object, ...) {
-
-    #Micro-average of precision = (TP1+TP2)/(TP1+TP2+FP1+FP2)
-    p <- sum(object[,'tp'], na.rm = TRUE) / sum(object[,c('tp', 'fp')])
-    #Micro-average of recall = (TP1+TP2)/(TP1+TP2+FN1+FN2)
-    r <- sum(object[,'tp'], na.rm = TRUE) / sum(object[,c('tp', 'fn')])
-    #Macro-average precision = (P1+P2)/2
-    P <- sum(object[,'precision'], na.rm = TRUE) / nrow(object)
-    #Macro-average recall = (R1+R2)/2
-    R <- sum(object[,'recall'], na.rm = TRUE) / nrow(object)
-
-    result <- c(p = p, r = r, P = P, R = R)
-    return(result)
+#' @method as.list textmodel_wordmap
+#' @param ... passed to [coef.textmodel_wordmap]
+as.list.textmodel_wordmap <- function(x, ...) {
+    lapply(coef(x, ...), names)
 }
 
-#' Compute average feature entropy (AFE)
-#'
-#' AFE computes randomness of occurrences features in labelled documents.
-#' @param x a dfm for features
-#' @param y a dfm for labels
-#' @param smooth a numeric value for smoothing to include all the features
-#' @importFrom quanteda.textstats textstat_entropy
-#' @importFrom quanteda is.dfm nfeat featnames colSums rowSums dfm_subset as.dfm
-#' @export
-afe <- function(x, y, smooth = 1) {
-    if (!is.dfm(x) || !is.dfm(y))
-        stop('x and y have to be dfm')
-    e <- get_entropy(group_topics(x, y) + smooth)
-    if (is.data.frame(e))
-        e <- e$entropy
-    return(mean(e))
-}
-
+#' @importFrom quanteda dfm_subset
 group_topics <- function(x, y) {
     result <- matrix(NA, nrow = nfeat(y), ncol = nfeat(x),
                      dimnames = list(featnames(y), featnames(x)))
@@ -299,6 +252,7 @@ group_topics <- function(x, y) {
     return(as.dfm(result))
 }
 
+#' @importFrom quanteda dfm_weight
 get_entropy <- function(x, base = 2) {
 
     x <- t(x)

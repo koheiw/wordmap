@@ -1,6 +1,6 @@
-#' UN General Debate speeches, 2017
+#' UN General Debate speeches from 2017
 #'
-#' A corpus of 196 speeches from the 2017 UN General Debate. The raw corpus with
+#' A corpus of 196 speeches from the 2017 UN General Debate (Mikhaylov and Baturo, 2017). The raw corpus with
 #' all speeches since 1970 is available at:
 #' <https://doi.org/10.7910/DVN/0TJX8Y>. The economic data for 2017 (GDP and
 #' GDP per capita) are downloaded from the World Bank website.
@@ -34,7 +34,7 @@
 #' Seed topic dictionary
 #'
 #' A dictionary with seed words for size common topics at the United Nations
-#' General Assembly.
+#' General Assembly (Watanabe and Zhou, 2020).
 #' @name data_dictionary_topic
 #' @docType data
 #' @author Kohei Watanabe \email{watanabe.kohei@gmail.com}
@@ -42,4 +42,4 @@
 #'   Large Corpora: Semisupervised Topic Classification of the UN Speeches".
 #'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
 #' @keywords data
-NULL
+"data_dictionary_topic"

@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.textmodel_wordmap}
 \alias{predict.textmodel_wordmap}
-\title{Prediction method for textmodel_wordmap}
+\title{Predict the most likely class of documents}
 \usage{
 \method{predict}{textmodel_wordmap}(
   object,
@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{object}{a fitted Newsmap textmodel.}
+\item{object}{a model fitted by \code{\link[=textmodel_wordmap]{textmodel_wordmap()}}.}
 
 \item{newdata}{dfm on which prediction should be made.}
 
@@ -39,5 +39,5 @@ both types of results.}
 \item{...}{not used.}
 }
 \description{
-Predict document class using trained a Newsmap model
+Predict document class using fitted Wordmap models.
 }

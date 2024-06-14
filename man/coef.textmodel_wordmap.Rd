@@ -3,14 +3,14 @@
 \name{coef.textmodel_wordmap}
 \alias{coef.textmodel_wordmap}
 \alias{coefficients.textmodel_wordmap}
-\title{Extract coefficients for features}
+\title{Extract coefficients from a Wordmap model}
 \usage{
 \method{coef}{textmodel_wordmap}(object, n = 10, select = NULL, ...)
 
 \method{coefficients}{textmodel_wordmap}(object, n = 10, select = NULL, ...)
 }
 \arguments{
-\item{object}{a textmodel object fitted by \code{\link[=textmodel_wordmap]{textmodel_wordmap()}}.}
+\item{object}{a model fitted by \code{\link[=textmodel_wordmap]{textmodel_wordmap()}}.}
 
 \item{n}{the number of coefficients to extract.}
 
@@ -20,5 +20,6 @@ names of rows in \code{object$model}.}
 \item{...}{not used.}
 }
 \description{
-Extract coefficients for features
+\code{coef()} returns coefficients of features as a list of numeric vector; the
+numeric vectors are soted in decending order by the sizes of coefficients.
 }

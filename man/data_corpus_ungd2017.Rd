@@ -3,7 +3,7 @@
 \docType{data}
 \name{data_corpus_ungd2017}
 \alias{data_corpus_ungd2017}
-\title{UN General Debate speeches, 2017}
+\title{UN General Debate speeches from 2017}
 \format{
 The corpus includes the following document variables: \describe{
 \item{country_iso}{ISO3c country code, e.g. "AFG" for Afghanistan}
@@ -28,7 +28,7 @@ General Debate Corpus. Harvard Dataverse, V4. URL:
 data_corpus_ungd2017
 }
 \description{
-A corpus of 196 speeches from the 2017 UN General Debate. The raw corpus with
+A corpus of 196 speeches from the 2017 UN General Debate (Mikhaylov and Baturo, 2017). The raw corpus with
 all speeches since 1970 is available at:
 \url{https://doi.org/10.7910/DVN/0TJX8Y}. The economic data for 2017 (GDP and
 GDP per capita) are downloaded from the World Bank website.
