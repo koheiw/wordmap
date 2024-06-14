@@ -1,15 +1,29 @@
 #' Evaluate classification accuracy in precision and recall
 #'
-#' `accuracy()` counts a data.frame that contains number true positive
-#' (tp), false positive (fp), true negative (tn) and false negative (fn) cases
+#' `accuracy()` counts the number of true positive,
+#' false positive, true negative, and false negative cases
 #' for each predicted class and calculates precision, recall and F1 score
 #' based on these counts.
-#' `summary()` calculates micro-average precision (p) and recall (r) and
-#' macro-average precision (P) and recall (R) based on the output of
+#' `summary()` calculates micro-average precision and recall, and
+#' macro-average precision and recall based on the output of
 #' `accuracy()`.
 #' @param x vector of predicted classes.
 #' @param y vector of true classes.
 #' @export
+#' @return
+#' `accuracy()` returns a data.framef with following columns:
+#' \item{tp}{The number of true positive cases.}
+#' \item{fp}{The number of false positive cases.}
+#' \item{tn}{The number of true negative cases.}
+#' \item{fn}{The number of false negative cases.}
+#' \item{precision}{\eqn{tp / (tp + fp)}.}
+#' \item{recall}{\eqn{tp / (tp + fn)}.}
+#' \item{f1}{the harmonic mean of precision and recall.}
+#' `summary()` returns a named numeric vector with the following elements:
+#' \item{p}{micro-average precision.}
+#' \item{r}{micro-average recall}
+#' \item{P}{macro-average precision.}
+#' \item{R}{macro-average recall.}
 #' @examples
 #' class_pred <- c('US', 'GB', 'US', 'CN', 'JP', 'FR', 'CN') # prediction
 #' class_true <- c('US', 'FR', 'US', 'CN', 'KP', 'EG', 'US') # true class
