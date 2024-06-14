@@ -45,8 +45,8 @@ entropy is averaged if \code{average}. See the details.}
 }
 \description{
 Wordmap is a semi-supervised Bayesian model for multinomial document
-classification. Wordmap models can be fitted using labels that were created
-from document meta-data or given by dictionary analysis.
+classification. Wordmap models are usually fitted using labels given by
+dictionary analysis or document meta-data.
 }
 \details{
 Wordmap learns association between words and classes as likelihood
@@ -80,8 +80,7 @@ predict(map)
 }
 \references{
 Watanabe, Kohei (2018). "Newsmap: semi-supervised approach to
-geographical news
-classification". doi.org/10.1080/21670811.2017.1293487"
+geographical news classification". doi.org/10.1080/21670811.2017.1293487"
 \emph{Digital Journalism}.
 
 Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of

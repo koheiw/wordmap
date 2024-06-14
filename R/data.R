@@ -1,9 +1,8 @@
 #' UN General Debate speeches from 2017
 #'
-#' A corpus of 196 speeches from the 2017 UN General Debate (Mikhaylov and Baturo, 2017). The raw corpus with
-#' all speeches since 1970 is available at:
-#' <https://doi.org/10.7910/DVN/0TJX8Y>. The economic data for 2017 (GDP and
-#' GDP per capita) are downloaded from the World Bank website.
+#' A corpus of 196 speeches from the 2017 UN General Debate (Mikhaylov and
+#' Baturo, 2017). The economic data for 2017 (GDP and GDP per capita) are
+#' downloaded from the World Bank website.
 #' @format
 #'   The corpus includes the following document variables: \describe{
 #'   \item{country_iso}{ISO3c country code, e.g. "AFG" for Afghanistan}
@@ -18,17 +17,11 @@
 #'   \item{gdp_per_capita}{GDP per capita in $US for 2017, derived from the
 #'   World Bank. Contains missing values for 9 countries.}
 #'   }
-#' @source Mikhaylov, M., Baturo, A., & Dasandi, N. (2017). United Nations
-#'   General Debate Corpus. Harvard Dataverse, V4. URL:
-#'   <https://doi.org/10.7910/DVN/0TJX8Y>.
-#' @references Mikhaylov, M., Baturo, A., & Dasandi, N. (2017). United Nations
-#'   General Debate Corpus. Harvard Dataverse, V4. URL:
-#'   <https://doi.org/10.7910/DVN/0TJX8Y>.
-#'
-#'   Baturo, A., Dasandi, N., & Mikhaylov, S. (2017).
-#'   [Understanding State Preferences With Text
-#'   As Data: Introducing the UN General Debate Corpus](10.1177/2053168017712821). *Research and
-#'   Politics* 4(2): 1--9.
+#' @source Mikhaylov, M., Baturo, A., & Dasandi, N. (2017). "United Nations
+#'   General Debate Corpus". doi:10.7910/DVN/0TJX8Y. Harvard Dataverse, V4.
+#' @references Baturo, A., Dasandi, N., & Mikhaylov, S. (2017). "Understanding
+#'   State Preferences With Text As Data: Introducing the UN General Debate
+#'   Corpus". doi:10.1177/2053168017712821. *Research and Politics*.
 "data_corpus_ungd2017"
 
 #' Seed topic dictionary
