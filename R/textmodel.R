@@ -39,8 +39,8 @@
 #'   \item{feature}{The feature set in the model.}
 #'   \item{concatenator}{The concatenator in `x`.}
 #'   \item{entropy}{The type of entorpy weights used.}
-#'   \item{boolean}{The use of Booelan transformation of `x`.}
-#'   \item{call}{The command used to run the function.}
+#'   \item{boolean}{The use of the Booelan transformation of `x`.}
+#'   \item{call}{The command used to execute the function.}
 #'   \item{version}{The version of the wordmap package.}
 #' @export
 #' @examples
