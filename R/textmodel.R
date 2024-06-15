@@ -179,13 +179,13 @@ summary.textmodel_wordmap <- function(object, n = 10, ...) {
 
 #' Extract coefficients from a Wordmap model
 #'
-#' `coef()` returns coefficients of features as a list of numeric vector; the
-#' numeric vectors are soted in decending order by the sizes of coefficients.
+#' `coef()` extracts top `n` features with largest coefficients for each class.
 #' @param object a model fitted by [textmodel_wordmap()].
 #' @param n the number of coefficients to extract.
 #' @param select returns the coefficients for the selected class; specify by the
 #'   names of rows in `object$model`.
 #' @param ... not used.
+#' @returns Returns a list of named numeric vectors sorted in descending order.
 #' @method coef textmodel_wordmap
 #' @import Matrix
 #' @importFrom stats coef
