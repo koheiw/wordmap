@@ -9,12 +9,16 @@
 #' @param type if `top`, returns the most likely class specified by `rank`;
 #'   otherwise return a matrix of likelihood ratio scores for all possible
 #'   classes.
-#' @param rescale if `TRUE`, likelihood ratio scores are normalized using [scale()]. This affects
-#'   both types of results.
+#' @param rescale if `TRUE`, likelihood ratio scores are normalized using [scale()].
+#'   This affects both types of results.
 #' @param min_conf return `NA` when confidence is lower than this value.
 #' @param min_n set the minimum number of polarity words in documents.
 #' @param ... not used.
 #' @method predict textmodel_wordmap
+#' @returns Returns predicted classes as a vector. If `confidence = TRUE`,
+#'   it returns a list of two vectors:
+#'   \item{class}{predicted cases.}
+#'   \item{confidence.fit}{confidence scores prediction.}
 #' @export
 #' @importFrom methods as
 #' @import quanteda

@@ -2,14 +2,15 @@
 
 #' print method for summary.textmodel
 #'
-#' @param x a `summary.textmodel` object
+#' @param x a `summary.textmodel` object.
 #' @param digits minimal number of *significant digits*, see
-#'   [print.default()]
-#' @param ... additional arguments not used
+#'   [print.default()].
+#' @param ... additional arguments not used.
 #' @method print summary.textmodel
 #' @importFrom stringi stri_trans_totitle stri_replace_all_fixed
 #'   stri_detect_fixed
 #' @keywords textmodel internal
+#' @return Does not return anything
 #' @export
 print.summary.textmodel <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
     label <- stri_trans_totitle(stri_replace_all_fixed(names(x), ".", " "))
@@ -29,6 +30,7 @@ print.summary.textmodel <- function(x, digits = max(3L, getOption("digits") - 3L
 #' Assign the summary.textmodel class to a list
 #' @param x a named list
 #' @keywords internal
+#' @returns Returns a summary.textmodel object.
 #' @export
 as.summary.textmodel <- function(x) {
     class(x) <- c("summary.textmodel", "list")
@@ -69,6 +71,7 @@ as.summary.textmodel <- function(x) {
 #' @param ... additional arguments not used
 #' @method print coefficients_textmodel
 #' @keywords internal textmodel
+#' @return Does not return anything
 #' @export
 print.coefficients_textmodel <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
     if (is.data.frame(x)) {
@@ -89,6 +92,7 @@ print.coefficients_textmodel <- function(x, digits = max(3L, getOption("digits")
 #' @importFrom stats coefficients
 #' @importFrom stats coef
 #' @keywords internal
+#' @return Returns a coefficients_textmodel object
 #' @export
 as.coefficients_textmodel <- function(x) {
     UseMethod('as.coefficients_textmodel')
@@ -128,6 +132,7 @@ as.coefficients_textmodel.matrix <- function(x) {
 #' @param ... further arguments passed to or from other methods
 #' @method print statistics_textmodel
 #' @keywords internal textmodel
+#' @return Does not return anything
 #' @export
 print.statistics_textmodel <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
     NextMethod(digits = digits, row.names = TRUE)
@@ -138,6 +143,7 @@ print.statistics_textmodel <- function(x, digits = max(3L, getOption("digits") -
 #' This is a helper function used in `summary.textmodel_*`.
 #' @param x an object to be coerced
 #' @keywords internal textmodel
+#' @return A statistics_textmodel object
 #' @export
 as.statistics_textmodel <- function(x) {
     UseMethod("as.statistics_textmodel")

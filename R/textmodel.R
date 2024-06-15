@@ -28,11 +28,20 @@
 #'
 #' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
 #' @references Watanabe, Kohei (2018). "Newsmap: semi-supervised approach to
-#'   geographical news classification". doi.org/10.1080/21670811.2017.1293487"
+#'   geographical news classification". doi.org/10.1080/21670811.2017.1293487,
 #'    *Digital Journalism*.
 #' @references Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of
 #'   Large Corpora: Semisupervised Topic Classification of the UN Speeches".
 #'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
+#' @returns Returns a fitted textmodel_wordmap object with the following elements:
+#'   \item{model}{A matrix that records the association between classes and features.}
+#'   \item{data}{The original input of `x`.}
+#'   \item{feature}{The feature set in the model.}
+#'   \item{concatenator}{The concatenator in `x`.}
+#'   \item{entropy}{The type of entorpy weights used.}
+#'   \item{boolean}{The use of Booelan transformation of `x`.}
+#'   \item{call}{The command used to run the function.}
+#'   \item{version}{The version of the wordmap package.}
 #' @export
 #' @examples
 #' require(quanteda)
@@ -141,11 +150,12 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
     }
 
     result <- list(model = model,
-                   entropy = entropy,
                    data = x,
                    weight = NULL,
                    feature = colnames(model),
                    concatenator = meta(x, field = "concatenator", type = "object"),
+                   entropy = entropy,
+                   boolean = boolean,
                    call = match.call(sys.function(-1), call = sys.call(-1)),
                    version = utils::packageVersion("wordmap"))
     if (entropy != "none")
@@ -227,6 +237,7 @@ coefficients.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
 #' @export
 #' @param separator the character in between multi-word dictionary values. If
 #'   `NULL`, `x$concatenator` will be used.
+#' @return Returns a list or a [quanteda::dictionary] object.
 #' @method as.dictionary textmodel_wordmap
 as.dictionary.textmodel_wordmap <- function(x, separator = NULL, ...) {
     if (is.null(separator))
