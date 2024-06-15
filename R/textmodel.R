@@ -156,7 +156,7 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                    concatenator = meta(x, field = "concatenator", type = "object"),
                    entropy = entropy,
                    boolean = boolean,
-                   call = match.call(sys.function(-1), call = sys.call(-1)),
+                   call = try(match.call(sys.function(-1), call = sys.call(-1)), silent = TRUE),
                    version = utils::packageVersion("wordmap"))
     if (entropy != "none")
         result$weight <- weight
