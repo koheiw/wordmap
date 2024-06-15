@@ -13,6 +13,9 @@ afe(x, y, smooth = 1)
 
 \item{smooth}{a numeric value for smoothing to include all the features.}
 }
+\value{
+Returns a single numeric value
+}
 \description{
 \code{afe()} computes Average Feature Entropy (AFE), which measures randomness of
 occurrences of features in labelled documents (Watanabe & Zhou, 2020). In

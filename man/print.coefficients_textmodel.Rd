@@ -15,6 +15,9 @@ This is a helper function used in \code{print.summary.textmodel}.}
 
 \item{...}{additional arguments not used}
 }
+\value{
+Does not return anything
+}
 \description{
 Print methods for textmodel features estimates
 This is a helper function used in \code{print.summary.textmodel}.

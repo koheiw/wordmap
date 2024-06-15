@@ -10,6 +10,9 @@ as.coefficients_textmodel(x)
 \arguments{
 \item{x}{an object to be coerced}
 }
+\value{
+Returns a coefficients_textmodel object
+}
 \description{
 Coerce various objects to coefficients_textmodel
 This is a helper function used in \verb{summary.textmodel_*}.

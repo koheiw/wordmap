@@ -14,6 +14,9 @@
 
 \item{...}{further arguments passed to or from other methods}
 }
+\value{
+Does not return anything
+}
 \description{
 Implements print methods for textmodel_statistics
 }

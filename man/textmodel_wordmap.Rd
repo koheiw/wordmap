@@ -43,6 +43,17 @@ entropy is averaged if \code{average}. See the details.}
 
 \item{...}{additional arguments passed to internal functions.}
 }
+\value{
+Returns a fitted textmodel_wordmap object with the following elements:
+\item{model}{A matrix that records the association between classes and features.}
+\item{data}{The original input of \code{x}.}
+\item{feature}{The feature set in the model.}
+\item{concatenator}{The concatenator in \code{x}.}
+\item{entropy}{The type of entorpy weights used.}
+\item{boolean}{The use of Booelan transformation of \code{x}.}
+\item{call}{The command used to run the function.}
+\item{version}{The version of the wordmap package.}
+}
 \description{
 Wordmap is a semi-supervised Bayesian model for multinomial document
 classification. Wordmap models are usually fitted using labels given by
@@ -80,7 +91,7 @@ predict(map)
 }
 \references{
 Watanabe, Kohei (2018). "Newsmap: semi-supervised approach to
-geographical news classification". doi.org/10.1080/21670811.2017.1293487"
+geographical news classification". doi.org/10.1080/21670811.2017.1293487,
 \emph{Digital Journalism}.
 
 Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of

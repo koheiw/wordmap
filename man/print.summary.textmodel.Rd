@@ -7,12 +7,15 @@
 \method{print}{summary.textmodel}(x, digits = max(3L, getOption("digits") - 3L), ...)
 }
 \arguments{
-\item{x}{a \code{summary.textmodel} object}
+\item{x}{a \code{summary.textmodel} object.}
 
 \item{digits}{minimal number of \emph{significant digits}, see
-\code{\link[=print.default]{print.default()}}}
+\code{\link[=print.default]{print.default()}}.}
 
-\item{...}{additional arguments not used}
+\item{...}{additional arguments not used.}
+}
+\value{
+Does not return anything
 }
 \description{
 print method for summary.textmodel

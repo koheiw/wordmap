@@ -29,14 +29,20 @@
 otherwise return a matrix of likelihood ratio scores for all possible
 classes.}
 
-\item{rescale}{if \code{TRUE}, likelihood ratio scores are normalized using \code{\link[=scale]{scale()}}. This affects
-both types of results.}
+\item{rescale}{if \code{TRUE}, likelihood ratio scores are normalized using \code{\link[=scale]{scale()}}.
+This affects both types of results.}
 
 \item{min_conf}{return \code{NA} when confidence is lower than this value.}
 
 \item{min_n}{set the minimum number of polarity words in documents.}
 
 \item{...}{not used.}
+}
+\value{
+Returns predicted classes as a vector. If \code{confidence = TRUE},
+it returns a list of two vectors:
+\item{class}{predicted cases.}
+\item{confidence.fit}{confidence scores prediction.}
 }
 \description{
 Predict document class using fitted Wordmap models.

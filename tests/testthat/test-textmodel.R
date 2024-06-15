@@ -96,8 +96,8 @@ test_that("methods for textmodel_wordmap works correctly", {
 
     expect_equal(
         names(map),
-        c("model", "entropy", "data", "weight", "feature",
-          "concatenator", "call", "version")
+        c("model", "data", "weight", "feature",
+          "concatenator", "entropy", "boolean", "call", "version")
     )
 
     # class association is calculated correctly

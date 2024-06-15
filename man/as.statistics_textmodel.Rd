@@ -9,6 +9,9 @@ as.statistics_textmodel(x)
 \arguments{
 \item{x}{an object to be coerced}
 }
+\value{
+A statistics_textmodel object
+}
 \description{
 This is a helper function used in \verb{summary.textmodel_*}.
 }
