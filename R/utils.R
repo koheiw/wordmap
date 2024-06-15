@@ -82,6 +82,7 @@ summary.textmodel_wordmap_accuracy <- function(object, ...) {
 #' @param y a dfm for labels.
 #' @param smooth a numeric value for smoothing to include all the features.
 #' @export
+#' @return Returns a single numeric value
 #' @references Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of
 #'   Large Corpora: Semisupervised Topic Classification of the UN Speeches".
 #'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
