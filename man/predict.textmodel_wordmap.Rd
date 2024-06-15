@@ -41,8 +41,8 @@ This affects both types of results.}
 \value{
 Returns predicted classes as a vector. If \code{confidence = TRUE},
 it returns a list of two vectors:
-\item{class}{predicted cases.}
-\item{confidence.fit}{confidence scores prediction.}
+\item{class}{predicted classes of documents.}
+\item{confidence.fit}{the confidence of predictions.}
 }
 \description{
 Predict document class using fitted Wordmap models.

@@ -19,7 +19,9 @@ names of rows in \code{object$model}.}
 
 \item{...}{not used.}
 }
+\value{
+Returns a list of named numeric vectors sorted in descending order.
+}
 \description{
-\code{coef()} returns coefficients of features as a list of numeric vector; the
-numeric vectors are soted in decending order by the sizes of coefficients.
+\code{coef()} extracts top \code{n} features with largest coefficients for each class.
 }
