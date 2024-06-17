@@ -19,7 +19,7 @@ accuracy(x, y)
 \item{...}{not used.}
 }
 \value{
-\code{accuracy()} returns a data.framef with following columns:
+\code{accuracy()} returns a data.frame with following columns:
 \item{tp}{the number of true positive cases.}
 \item{fp}{the number of false positive cases.}
 \item{tn}{the number of true negative cases.}

@@ -19,9 +19,9 @@
 \arguments{
 \item{object}{a model fitted by \code{\link[=textmodel_wordmap]{textmodel_wordmap()}}.}
 
-\item{newdata}{dfm on which prediction should be made.}
+\item{newdata}{a dfm on which prediction will be made.}
 
-\item{confidence}{if \code{TRUE}, it returns likelihood ratio score.}
+\item{confidence}{if \code{TRUE}, it returns likelihood ratio scores.}
 
 \item{rank}{rank of the class to be predicted. Only used when \code{type = "top"}.}
 

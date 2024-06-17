@@ -50,7 +50,7 @@ Returns a fitted textmodel_wordmap object with the following elements:
 \item{feature}{the feature set in the model.}
 \item{concatenator}{the concatenator in \code{x}.}
 \item{entropy}{the type of entorpy weights used.}
-\item{boolean}{the use of the Booelan transformation of \code{x}.}
+\item{boolean}{the use of the Boolean transformation of \code{x}.}
 \item{call}{the command used to execute the function.}
 \item{version}{the version of the wordmap package.}
 }
