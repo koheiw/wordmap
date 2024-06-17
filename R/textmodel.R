@@ -1,8 +1,8 @@
-#' Semi-supervised model for multinomial document classification
+#' A model for multinomial feature extraction and document classification
 #'
-#' Wordmap is a semi-supervised Bayesian model for multinomial document
-#' classification. Wordmap models are usually fitted using labels given by
-#' dictionary analysis or document meta-data.
+#' Wordmap is a model for multinomial feature extraction and document classification.
+#' Its naive Bayesian algorithm allows users to train the model on a large corpus with
+#' noisy labels given by document meta-data or keyword matching.
 #' @param x a dfm or fcm created by [quanteda::dfm()]
 #' @param y a dfm or a sparse matrix that record class membership of the
 #'   documents. It can be created applying [quanteda::dfm_lookup()] to `x`.
@@ -33,15 +33,14 @@
 #' @references Watanabe, Kohei & Zhou, Yuan (2020). "Theory-Driven Analysis of
 #'   Large Corpora: Semisupervised Topic Classification of the UN Speeches".
 #'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
-#' @returns Returns a fitted textmodel_wordmap object with the following elements:
-#'   \item{model}{a matrix that records the association between classes and features.}
-#'   \item{data}{the original input of `x`.}
-#'   \item{feature}{the feature set in the model.}
-#'   \item{concatenator}{the concatenator in `x`.}
-#'   \item{entropy}{the type of entorpy weights used.}
+#' @returns Returns a fitted textmodel_wordmap object with the following
+#'   elements: \item{model}{a matrix that records the association between
+#'   classes and features.} \item{data}{the original input of `x`.}
+#'   \item{feature}{the feature set in the model.} \item{concatenator}{the
+#'   concatenator in `x`.} \item{entropy}{the type of entorpy weights used.}
 #'   \item{boolean}{the use of the Boolean transformation of `x`.}
-#'   \item{call}{the command used to execute the function.}
-#'   \item{version}{the version of the wordmap package.}
+#'   \item{call}{the command used to execute the function.} \item{version}{the
+#'   version of the wordmap package.}
 #' @export
 #' @examples
 #' require(quanteda)

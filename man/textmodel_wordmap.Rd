@@ -2,7 +2,7 @@
 % Please edit documentation in R/textmodel.R
 \name{textmodel_wordmap}
 \alias{textmodel_wordmap}
-\title{Semi-supervised model for multinomial document classification}
+\title{A model for multinomial feature extraction and document classification}
 \usage{
 textmodel_wordmap(
   x,
@@ -44,20 +44,19 @@ entropy is averaged if \code{average}. See the details.}
 \item{...}{additional arguments passed to internal functions.}
 }
 \value{
-Returns a fitted textmodel_wordmap object with the following elements:
-\item{model}{a matrix that records the association between classes and features.}
-\item{data}{the original input of \code{x}.}
-\item{feature}{the feature set in the model.}
-\item{concatenator}{the concatenator in \code{x}.}
-\item{entropy}{the type of entorpy weights used.}
+Returns a fitted textmodel_wordmap object with the following
+elements: \item{model}{a matrix that records the association between
+classes and features.} \item{data}{the original input of \code{x}.}
+\item{feature}{the feature set in the model.} \item{concatenator}{the
+concatenator in \code{x}.} \item{entropy}{the type of entorpy weights used.}
 \item{boolean}{the use of the Boolean transformation of \code{x}.}
-\item{call}{the command used to execute the function.}
-\item{version}{the version of the wordmap package.}
+\item{call}{the command used to execute the function.} \item{version}{the
+version of the wordmap package.}
 }
 \description{
-Wordmap is a semi-supervised Bayesian model for multinomial document
-classification. Wordmap models are usually fitted using labels given by
-dictionary analysis or document meta-data.
+Wordmap is a model for multinomial feature extraction and document classification.
+Its naive Bayesian algorithm allows users to train the model on a large corpus with
+noisy labels given by document meta-data or keyword matching.
 }
 \details{
 Wordmap learns association between words and classes as likelihood
