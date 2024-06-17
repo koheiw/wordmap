@@ -39,7 +39,7 @@
 #'   \item{feature}{the feature set in the model.}
 #'   \item{concatenator}{the concatenator in `x`.}
 #'   \item{entropy}{the type of entorpy weights used.}
-#'   \item{boolean}{the use of the Booelan transformation of `x`.}
+#'   \item{boolean}{the use of the Boolean transformation of `x`.}
 #'   \item{call}{the command used to execute the function.}
 #'   \item{version}{the version of the wordmap package.}
 #' @export
@@ -230,7 +230,7 @@ coefficients.textmodel_wordmap <- function(object, n = 10, select = NULL, ...) {
 
 #' Create lexicon from a Wordmap model
 #'
-#' `as.list()` returns features with the largest coefficientsa as a list of
+#' `as.list()` returns features with the largest coefficients as a list of
 #' character vector. `as.dictionary()` returns a [quanteda::dictionary] object
 #' that can be use for dictionary analysis.
 #' @param x a model fitted by [textmodel_wordmap()].
