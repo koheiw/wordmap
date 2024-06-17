@@ -19,8 +19,9 @@ Imports:
     quanteda (>= 2.1),
     stringi
 Suggests:
+    spelling,
     testthat,
     newsmap
-Language: en-GB
+Language: en-US
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
