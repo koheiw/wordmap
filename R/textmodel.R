@@ -34,14 +34,14 @@
 #'   Large Corpora: Semisupervised Topic Classification of the UN Speeches".
 #'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
 #' @returns Returns a fitted textmodel_wordmap object with the following elements:
-#'   \item{model}{A matrix that records the association between classes and features.}
-#'   \item{data}{The original input of `x`.}
-#'   \item{feature}{The feature set in the model.}
-#'   \item{concatenator}{The concatenator in `x`.}
-#'   \item{entropy}{The type of entorpy weights used.}
-#'   \item{boolean}{The use of the Booelan transformation of `x`.}
-#'   \item{call}{The command used to execute the function.}
-#'   \item{version}{The version of the wordmap package.}
+#'   \item{model}{a matrix that records the association between classes and features.}
+#'   \item{data}{the original input of `x`.}
+#'   \item{feature}{the feature set in the model.}
+#'   \item{concatenator}{the concatenator in `x`.}
+#'   \item{entropy}{the type of entorpy weights used.}
+#'   \item{boolean}{the use of the Booelan transformation of `x`.}
+#'   \item{call}{the command used to execute the function.}
+#'   \item{version}{the version of the wordmap package.}
 #' @export
 #' @examples
 #' require(quanteda)

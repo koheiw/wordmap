@@ -32,7 +32,7 @@ classes.}
 \item{rescale}{if \code{TRUE}, likelihood ratio scores are normalized using \code{\link[=scale]{scale()}}.
 This affects both types of results.}
 
-\item{min_conf}{return \code{NA} when confidence is lower than this value.}
+\item{min_conf}{returns \code{NA} when confidence is lower than this value.}
 
 \item{min_n}{set the minimum number of polarity words in documents.}
 

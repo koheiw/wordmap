@@ -3,15 +3,15 @@
 #'
 #' Predict document class using fitted Wordmap models.
 #' @param object a model fitted by [textmodel_wordmap()].
-#' @param newdata dfm on which prediction should be made.
-#' @param confidence if `TRUE`, it returns likelihood ratio score.
+#' @param newdata a dfm on which prediction will be made.
+#' @param confidence if `TRUE`, it returns likelihood ratio scores.
 #' @param rank rank of the class to be predicted. Only used when `type = "top"`.
 #' @param type if `top`, returns the most likely class specified by `rank`;
 #'   otherwise return a matrix of likelihood ratio scores for all possible
 #'   classes.
 #' @param rescale if `TRUE`, likelihood ratio scores are normalized using [scale()].
 #'   This affects both types of results.
-#' @param min_conf return `NA` when confidence is lower than this value.
+#' @param min_conf returns `NA` when confidence is lower than this value.
 #' @param min_n set the minimum number of polarity words in documents.
 #' @param ... not used.
 #' @method predict textmodel_wordmap

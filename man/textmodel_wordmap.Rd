@@ -45,14 +45,14 @@ entropy is averaged if \code{average}. See the details.}
 }
 \value{
 Returns a fitted textmodel_wordmap object with the following elements:
-\item{model}{A matrix that records the association between classes and features.}
-\item{data}{The original input of \code{x}.}
-\item{feature}{The feature set in the model.}
-\item{concatenator}{The concatenator in \code{x}.}
-\item{entropy}{The type of entorpy weights used.}
-\item{boolean}{The use of the Booelan transformation of \code{x}.}
-\item{call}{The command used to execute the function.}
-\item{version}{The version of the wordmap package.}
+\item{model}{a matrix that records the association between classes and features.}
+\item{data}{the original input of \code{x}.}
+\item{feature}{the feature set in the model.}
+\item{concatenator}{the concatenator in \code{x}.}
+\item{entropy}{the type of entorpy weights used.}
+\item{boolean}{the use of the Booelan transformation of \code{x}.}
+\item{call}{the command used to execute the function.}
+\item{version}{the version of the wordmap package.}
 }
 \description{
 Wordmap is a semi-supervised Bayesian model for multinomial document

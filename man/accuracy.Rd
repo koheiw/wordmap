@@ -20,10 +20,10 @@ accuracy(x, y)
 }
 \value{
 \code{accuracy()} returns a data.framef with following columns:
-\item{tp}{The number of true positive cases.}
-\item{fp}{The number of false positive cases.}
-\item{tn}{The number of true negative cases.}
-\item{fn}{The number of false negative cases.}
+\item{tp}{the number of true positive cases.}
+\item{fp}{the number of false positive cases.}
+\item{tn}{the number of true negative cases.}
+\item{fn}{the number of false negative cases.}
 \item{precision}{\eqn{tp / (tp + fp)}.}
 \item{recall}{\eqn{tp / (tp + fn)}.}
 \item{f1}{the harmonic mean of precision and recall.}
