@@ -1,8 +1,8 @@
 bibentry(
   bibtype  = "Article",
   title    = "Theory-Driven Analysis of Large Corpora: Semisupervised Topic Classification of the UN Speeches",
-  author = c(person(c("Kohei", "Watanabe"),
-             person(c("Yuan", "Zhou")))),
+  author = c(person("Kohei", "Watanabe"),
+             person("Yuan", "Zhou")),
   journal  = "Social Science Computer Review",
   year     = "2020",
   volume   = "40",
