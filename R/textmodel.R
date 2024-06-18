@@ -37,7 +37,7 @@
 #'   elements: \item{model}{a matrix that records the association between
 #'   classes and features.} \item{data}{the original input of `x`.}
 #'   \item{feature}{the feature set in the model.} \item{concatenator}{the
-#'   concatenator in `x`.} \item{entropy}{the type of entorpy weights used.}
+#'   concatenator in `x`.} \item{entropy}{the type of entropy weights used.}
 #'   \item{boolean}{the use of the Boolean transformation of `x`.}
 #'   \item{call}{the command used to execute the function.} \item{version}{the
 #'   version of the wordmap package.}
