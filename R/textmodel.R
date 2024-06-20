@@ -1,8 +1,9 @@
 #' A model for multinomial feature extraction and document classification
 #'
-#' Wordmap is a model for multinomial feature extraction and document classification.
-#' Its naive Bayesian algorithm allows users to train the model on a large corpus with
-#' noisy labels given by document meta-data or keyword matching.
+#' Wordmap is a model for multinomial feature extraction and document
+#' classification. Its naive Bayesian algorithm allows users to train the model
+#' on a large corpus with noisy labels given by document meta-data or keyword
+#' matching.
 #' @param x a dfm or fcm created by [quanteda::dfm()]
 #' @param y a dfm or a sparse matrix that record class membership of the
 #'   documents. It can be created applying [quanteda::dfm_lookup()] to `x`.
@@ -14,17 +15,24 @@
 #'   ratios.
 #' @param boolean if `TRUE`, only consider presence or absence of features in
 #'   each document to limit the impact of words repeated in few documents.
-#' @param verbose if `TRUE`, shows progress of training.
-#' @param entropy \[experimental\] the scheme to compute the entropy to
+#' @param residual if `TRUE`, a residual class is added to `y`. It is named
+#'   "other" but can be changed via `base::options(wordmap_residual_name)`.
+#' @param entropy the scheme to compute the entropy to
 #'   regularize likelihood ratios. The entropy of features are computed over
 #'   labels if `global` or over documents with the same labels if `local`. Local
 #'   entropy is averaged if `average`. See the details.
+#' @param verbose if `TRUE`, shows progress of training.
 #' @param ... additional arguments passed to internal functions.
-#' @details Wordmap learns association between words and classes as likelihood
-#'   ratios based on the features in `x` and the labels in `y`. The large
+#' @details Wordmap learns association between words in `x` and classes in `y`
+#'   based on likelihood ratios. The large
 #'   likelihood ratios tend to concentrate to a small number of features but the
 #'   entropy of their frequencies over labels or documents helps to disperse the
 #'   distribution.
+#'
+#'   A residual class is created internally by adding a new column to `y`.
+#'   The column is given 1 if the other values in the same row are all zero
+#'    (i.e. `rowSums(y) == 0`); otherwise 0. It is useful when users cannot create
+#'    an exhaustive dictionary that covers all the categories.
 #'
 #' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
 #' @references Watanabe, Kohei (2018). "Newsmap: semi-supervised approach to
@@ -37,7 +45,7 @@
 #'   elements: \item{model}{a matrix that records the association between
 #'   classes and features.} \item{data}{the original input of `x`.}
 #'   \item{feature}{the feature set in the model.} \item{concatenator}{the
-#'   concatenator in `x`.} \item{entropy}{the type of entropy weights used.}
+#'   concatenator in `x`.} \item{entropy}{the scheme to compute entropy weights.}
 #'   \item{boolean}{the use of the Boolean transformation of `x`.}
 #'   \item{call}{the command used to execute the function.} \item{version}{the
 #'   version of the wordmap package.}
@@ -67,8 +75,10 @@
 #' @export
 textmodel_wordmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
                               boolean = FALSE, drop_label = TRUE,
+                              entropy = c("none", "global", "local", "average"),
+                              residual = FALSE,
                               verbose = quanteda_options('verbose'),
-                              entropy = c("none", "global", "local", "average"), ...) {
+                              ...) {
     UseMethod("textmodel_wordmap")
 }
 
@@ -77,8 +87,9 @@ textmodel_wordmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
 #' @importFrom quanteda check_double check_logical
 textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                                   boolean = FALSE, drop_label = TRUE,
-                                  verbose = quanteda_options('verbose'),
-                                  entropy = c("none", "global", "local", "average"), ...) {
+                                  entropy = c("none", "global", "local", "average"),
+                                  residual = FALSE,
+                                  verbose = quanteda_options('verbose'), ...) {
 
     unused_dots(...)
     entropy <- match.arg(entropy)
@@ -86,6 +97,7 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
     smooth <- check_double(smooth, min = 0)
     boolean <- check_logical(boolean)
     drop_label <- check_logical(drop_label)
+    residual <- check_logical(residual)
 
     if (label == "max") {
         y <- as(as(as(y, "dMatrix"), "generalMatrix"), "TsparseMatrix")
@@ -99,6 +111,16 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
     y <- as.dfm(y)
     if (drop_label)
         y <- dfm_trim(y, min_termfreq = 1)
+
+    if (residual) {
+        label <- getOption("wordmap_residual_name", "other")
+        res <- Matrix::sparseMatrix(i = seq_len(nrow(y)),
+                                    j = rep(1, nrow(y)),
+                                    x = rowSums(y) == 0,
+                                    dim = c(nrow(y), 1),
+                                    dimnames = list(rownames(y), label))
+        y <- cbind(y, as.dfm(res))
+    }
 
     if (!nfeat(w))
         stop("x must have at least one non-zero feature")

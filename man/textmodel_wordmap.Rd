@@ -11,8 +11,9 @@ textmodel_wordmap(
   smooth = 1,
   boolean = FALSE,
   drop_label = TRUE,
-  verbose = quanteda_options("verbose"),
   entropy = c("none", "global", "local", "average"),
+  residual = FALSE,
+  verbose = quanteda_options("verbose"),
   ...
 )
 }
@@ -34,12 +35,15 @@ each document to limit the impact of words repeated in few documents.}
 \item{drop_label}{if \code{TRUE}, drops empty columns of \code{y} and ignore their
 labels.}
 
-\item{verbose}{if \code{TRUE}, shows progress of training.}
-
-\item{entropy}{[experimental] the scheme to compute the entropy to
+\item{entropy}{the scheme to compute the entropy to
 regularize likelihood ratios. The entropy of features are computed over
 labels if \code{global} or over documents with the same labels if \code{local}. Local
 entropy is averaged if \code{average}. See the details.}
+
+\item{residual}{if \code{TRUE}, a residual class is added to \code{y}. It is named
+"other" but can be changed via \code{base::options(wordmap_residual_name)}.}
+
+\item{verbose}{if \code{TRUE}, shows progress of training.}
 
 \item{...}{additional arguments passed to internal functions.}
 }
@@ -48,22 +52,28 @@ Returns a fitted textmodel_wordmap object with the following
 elements: \item{model}{a matrix that records the association between
 classes and features.} \item{data}{the original input of \code{x}.}
 \item{feature}{the feature set in the model.} \item{concatenator}{the
-concatenator in \code{x}.} \item{entropy}{the type of entropy weights used.}
+concatenator in \code{x}.} \item{entropy}{the scheme to compute entropy weights.}
 \item{boolean}{the use of the Boolean transformation of \code{x}.}
 \item{call}{the command used to execute the function.} \item{version}{the
 version of the wordmap package.}
 }
 \description{
-Wordmap is a model for multinomial feature extraction and document classification.
-Its naive Bayesian algorithm allows users to train the model on a large corpus with
-noisy labels given by document meta-data or keyword matching.
+Wordmap is a model for multinomial feature extraction and document
+classification. Its naive Bayesian algorithm allows users to train the model
+on a large corpus with noisy labels given by document meta-data or keyword
+matching.
 }
 \details{
-Wordmap learns association between words and classes as likelihood
-ratios based on the features in \code{x} and the labels in \code{y}. The large
+Wordmap learns association between words in \code{x} and classes in \code{y}
+based on likelihood ratios. The large
 likelihood ratios tend to concentrate to a small number of features but the
 entropy of their frequencies over labels or documents helps to disperse the
 distribution.
+
+A residual class is created internally by adding a new column to \code{y}.
+The column is given 1 if the other values in the same row are all zero
+(i.e. \code{rowSums(y) == 0}); otherwise 0. It is useful when users cannot create
+an exhaustive dictionary that covers all the categories.
 }
 \examples{
 require(quanteda)

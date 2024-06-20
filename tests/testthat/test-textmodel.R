@@ -266,3 +266,29 @@ test_that("coef() and dictionary() are working", {
     expect_equal(dict3@meta$object$separator, "+")
 
 })
+
+test_that("residual is working", {
+
+    smat <- xtabs( ~ docid(dfmt_test) + dfmt_test$Party, sparse = TRUE)
+    smat <- smat[,c("Republican", "Democratic")]
+
+    map1 <- textmodel_wordmap(dfmt_test, smat)
+    expect_identical(names(coef(map1)),
+                     c("Republican", "Democratic"))
+
+    map2 <- textmodel_wordmap(dfmt_test, smat, residual = TRUE)
+    expect_identical(names(coef(map2)),
+                     c("Republican", "Democratic", "other"))
+
+    options("wordmap_residual_name" = "junk")
+    map3 <- textmodel_wordmap(dfmt_test, smat, residual = TRUE)
+    expect_identical(names(coef(map3)),
+                     c("Republican", "Democratic", "junk"))
+    options("wordmap_residual_name" = NULL)
+
+    expect_error(
+        textmodel_wordmap(dfmt_test, smat, residual = c(TRUE, FALSE)),
+        "The length of residual must be 1"
+    )
+
+})
