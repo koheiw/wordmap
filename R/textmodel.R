@@ -17,7 +17,7 @@
 #'   each document to limit the impact of words repeated in few documents.
 #' @param residual if `TRUE`, a residual class is added to `y`. It is named
 #'   "other" but can be changed via `base::options(wordmap_residual_name)`.
-#' @param entropy \[experimental\] the scheme to compute the entropy to
+#' @param entropy the scheme to compute the entropy to
 #'   regularize likelihood ratios. The entropy of features are computed over
 #'   labels if `global` or over documents with the same labels if `local`. Local
 #'   entropy is averaged if `average`. See the details.
@@ -31,8 +31,8 @@
 #'
 #'   A residual class is created internally by adding a new column to `y`.
 #'   The column is given 1 if the other values in the same row are all zero
-#'    (`rowSums(y) == 0`); otherwise 0. It is useful when users cannot create
-#    an exhaustive dictionary that covers all the categories.
+#'    (i.e. `rowSums(y) == 0`); otherwise 0. It is useful when users cannot create
+#'    an exhaustive dictionary that covers all the categories.
 #'
 #' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
 #' @references Watanabe, Kohei (2018). "Newsmap: semi-supervised approach to
@@ -45,7 +45,7 @@
 #'   elements: \item{model}{a matrix that records the association between
 #'   classes and features.} \item{data}{the original input of `x`.}
 #'   \item{feature}{the feature set in the model.} \item{concatenator}{the
-#'   concatenator in `x`.} \item{entropy}{the type of entropy weights used.}
+#'   concatenator in `x`.} \item{entropy}{the scheme to compute entropy weights.}
 #'   \item{boolean}{the use of the Boolean transformation of `x`.}
 #'   \item{call}{the command used to execute the function.} \item{version}{the
 #'   version of the wordmap package.}

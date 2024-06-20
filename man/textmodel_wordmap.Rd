@@ -35,7 +35,7 @@ each document to limit the impact of words repeated in few documents.}
 \item{drop_label}{if \code{TRUE}, drops empty columns of \code{y} and ignore their
 labels.}
 
-\item{entropy}{[experimental] the scheme to compute the entropy to
+\item{entropy}{the scheme to compute the entropy to
 regularize likelihood ratios. The entropy of features are computed over
 labels if \code{global} or over documents with the same labels if \code{local}. Local
 entropy is averaged if \code{average}. See the details.}
@@ -52,7 +52,7 @@ Returns a fitted textmodel_wordmap object with the following
 elements: \item{model}{a matrix that records the association between
 classes and features.} \item{data}{the original input of \code{x}.}
 \item{feature}{the feature set in the model.} \item{concatenator}{the
-concatenator in \code{x}.} \item{entropy}{the type of entropy weights used.}
+concatenator in \code{x}.} \item{entropy}{the scheme to compute entropy weights.}
 \item{boolean}{the use of the Boolean transformation of \code{x}.}
 \item{call}{the command used to execute the function.} \item{version}{the
 version of the wordmap package.}
@@ -72,7 +72,8 @@ distribution.
 
 A residual class is created internally by adding a new column to \code{y}.
 The column is given 1 if the other values in the same row are all zero
-(\code{rowSums(y) == 0}); otherwise 0. It is useful when users cannot create
+(i.e. \code{rowSums(y) == 0}); otherwise 0. It is useful when users cannot create
+an exhaustive dictionary that covers all the categories.
 }
 \examples{
 require(quanteda)
