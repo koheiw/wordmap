@@ -292,3 +292,6 @@ test_that("residual is working", {
     )
 
 })
+
+
+
