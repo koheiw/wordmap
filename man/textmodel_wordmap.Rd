@@ -50,12 +50,15 @@ entropy is averaged if \code{average}. See the details.}
 \value{
 Returns a fitted textmodel_wordmap object with the following
 elements: \item{model}{a matrix that records the association between
-classes and features.} \item{data}{the original input of \code{x}.}
-\item{feature}{the feature set in the model.} \item{concatenator}{the
-concatenator in \code{x}.} \item{entropy}{the scheme to compute entropy weights.}
+classes and features.}
+\item{data}{the original input of \code{x}.}
+\item{feature}{the feature set in the model.}
+\item{class}{the class labels in the model.}
+\item{concatenator}{the concatenator in \code{x}.}
+\item{entropy}{the scheme to compute entropy weights.}
 \item{boolean}{the use of the Boolean transformation of \code{x}.}
-\item{call}{the command used to execute the function.} \item{version}{the
-version of the wordmap package.}
+\item{call}{the command used to execute the function.}
+\item{version}{the version of the wordmap package.}
 }
 \description{
 Wordmap is a model for multinomial feature extraction and document
