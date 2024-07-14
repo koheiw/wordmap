@@ -43,12 +43,15 @@
 #'   doi:10.1177/0894439320907027. *Social Science Computer Review*.
 #' @returns Returns a fitted textmodel_wordmap object with the following
 #'   elements: \item{model}{a matrix that records the association between
-#'   classes and features.} \item{data}{the original input of `x`.}
-#'   \item{feature}{the feature set in the model.} \item{concatenator}{the
-#'   concatenator in `x`.} \item{entropy}{the scheme to compute entropy weights.}
+#'   classes and features.}
+#'   \item{data}{the original input of `x`.}
+#'   \item{feature}{the feature set in `x`}
+#'   \item{class}{the class labels in `y`.}
+#'   \item{concatenator}{the concatenator in `x`.}
+#'   \item{entropy}{the scheme to compute entropy weights.}
 #'   \item{boolean}{the use of the Boolean transformation of `x`.}
-#'   \item{call}{the command used to execute the function.} \item{version}{the
-#'   version of the wordmap package.}
+#'   \item{call}{the command used to execute the function.}
+#'   \item{version}{the version of the wordmap package.}
 #' @export
 #' @examples
 #' require(quanteda)
@@ -174,6 +177,7 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                    data = x,
                    weight = NULL,
                    feature = colnames(model),
+                   class = rownames(model),
                    concatenator = meta(x, field = "concatenator", type = "object"),
                    entropy = entropy,
                    boolean = boolean,
