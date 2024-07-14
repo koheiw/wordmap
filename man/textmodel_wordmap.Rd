@@ -52,8 +52,8 @@ Returns a fitted textmodel_wordmap object with the following
 elements: \item{model}{a matrix that records the association between
 classes and features.}
 \item{data}{the original input of \code{x}.}
-\item{feature}{the feature set in the model.}
-\item{class}{the class labels in the model.}
+\item{feature}{the feature set in \code{x}}
+\item{class}{the class labels in \code{y}.}
 \item{concatenator}{the concatenator in \code{x}.}
 \item{entropy}{the scheme to compute entropy weights.}
 \item{boolean}{the use of the Boolean transformation of \code{x}.}

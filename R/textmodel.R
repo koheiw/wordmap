@@ -45,8 +45,8 @@
 #'   elements: \item{model}{a matrix that records the association between
 #'   classes and features.}
 #'   \item{data}{the original input of `x`.}
-#'   \item{feature}{the feature set in the model.}
-#'   \item{class}{the class labels in the model.}
+#'   \item{feature}{the feature set in `x`}
+#'   \item{class}{the class labels in `y`.}
 #'   \item{concatenator}{the concatenator in `x`.}
 #'   \item{entropy}{the scheme to compute entropy weights.}
 #'   \item{boolean}{the use of the Boolean transformation of `x`.}
