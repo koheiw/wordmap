@@ -35,7 +35,7 @@ textplot_terms.textmodel_wordmap <- function(x, highlighted = NULL,
     x$frequency[is.na(x$frequency)] <- 0
 
     beta <- freq <- word <- NULL
-    freq <- featfreq(x$data)
+    freq <- colSums(x$data)
     # TODO: save class names in the model
     mat <- x$model[!rownames(x$model) %in% getOption("wordmap_residual_name", "other"),]
     temp <- data.frame(word = colnames(mat)[col(mat)],
@@ -79,15 +79,11 @@ textplot_terms.textmodel_wordmap <- function(x, highlighted = NULL,
             dup <- logical()
         }
         ids <- ids[lengths(ids) == 1 & !dup] # drop phrasal and nested patterns
-        id <- unlist(ids)
-
-        if (!is.null(id)) {
-            temp$match <- temp$id %in% id
-        }
+        temp$match <- temp$id %in% unlist(ids)
     }
 
     temp$p <- as.numeric(temp$match) * temp$beta ^ 2
-    if (all(temp$p == 0)) {
+    if (!is.null(highlighted) && all(temp$p == 0)) {
         l <- rep(FALSE, length(temp$id))
     } else {
         l <- temp$id %in% sample(temp$id, min(sum(temp$p > 0), max_highlighted),
