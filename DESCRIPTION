@@ -17,11 +17,12 @@ Imports:
     utils,
     Matrix,
     quanteda (>= 2.1),
-    stringi
+    stringi,
+    ggplot2,
+    ggrepel
 Suggests:
     spelling,
-    testthat,
-    newsmap
+    testthat
 Language: en-US
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
