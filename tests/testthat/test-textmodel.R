@@ -96,7 +96,7 @@ test_that("methods for textmodel_wordmap works correctly", {
 
     expect_equal(
         names(map),
-        c("model", "data", "weight", "feature",
+        c("model", "data", "weight", "feature", "class",
           "concatenator", "entropy", "boolean", "call", "version")
     )
 

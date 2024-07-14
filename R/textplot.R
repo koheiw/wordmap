@@ -31,17 +31,25 @@ textplot_terms.textmodel_wordmap <- function(x, highlighted = NULL,
     max_words <- check_integer(max_words, min = 1)
     max_highlighted <- check_integer(max_highlighted, min = 0)
 
-    x$frequency <- x$frequency[names(x$beta)] # fix for < v1.1.4
-    x$frequency[is.na(x$frequency)] <- 0
+    if (is.null(x$weight)){
+        model <- x$model
+    } else {
+        model <- x$model * x$weight
+    }
+
+    if (is.null(x$class)) {
+        class <- rownames(x$model) # for old objects
+    } else {
+        class <- x$class
+    }
+    model <- model[class,]
 
     beta <- freq <- word <- NULL
     freq <- colSums(x$data)
-    # TODO: save class names in the model
-    mat <- x$model[!rownames(x$model) %in% getOption("wordmap_residual_name", "other"),]
-    temp <- data.frame(word = colnames(mat)[col(mat)],
-                       group = rownames(mat)[row(mat)],
-                       beta = as.vector(mat),
-                       freq = freq[col(mat)])
+    temp <- data.frame(word = colnames(model)[col(model)],
+                       group = rownames(model)[row(model)],
+                       beta = as.vector(model),
+                       freq = freq[col(model)])
 
     temp <- subset(temp, freq > 0)
     temp$freq <- log(temp$freq)
