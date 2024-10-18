@@ -125,6 +125,8 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
         y <- cbind(y, as.dfm(res))
     }
 
+    if (nrow(x) != nrow(y))
+        stop("x and y must have the same number of rows")
     if (!nfeat(w))
         stop("x must have at least one non-zero feature")
     if (!nfeat(y))

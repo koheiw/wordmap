@@ -1,3 +1,7 @@
+## Changes in v0.9.1
+
+* Improve input value checks.
+
 ## Changes in v0.9.0
 
 * Add `textplot_terms()` to visualize coefficients of words.

@@ -152,9 +152,13 @@ test_that("methods for textmodel_wordmap works correctly", {
 
 })
 
-test_that("textmodel_wordmap() raises error if dfm is empty", {
-    dfmt1 <- dfm(tokens("a b c"))
-    dfmt2 <- dfm(tokens("A"))
+test_that("textmodel_wordmap() raises errors", {
+    dfmt1 <- dfm(tokens(c("a b c", "d e f", "a d e")))
+    dfmt2 <- dfm(tokens(c("X", "Y", "X")))
+
+    expect_error(textmodel_wordmap(dfmt1[1:2,], dfmt2),
+                 "x and y must have the same number of rows")
+
     expect_error(textmodel_wordmap(dfm_trim(dfmt1, min_termfreq = 10), dfmt2),
                  "x must have at least one non-zero feature")
 
