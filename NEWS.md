@@ -1,6 +1,6 @@
 ## Changes in v0.9.1
 
-* Improve input value checks.
+* Add checks on the number and names of rows of x and y.
 
 ## Changes in v0.9.0
 
