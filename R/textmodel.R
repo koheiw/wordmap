@@ -108,6 +108,11 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
         y@x[y@x < s[y@i + 1L]] <- 0L
     }
 
+    if (nrow(x) != nrow(y))
+        stop("x and y must have the same number of rows")
+    if (!is.null(rownames(y)) && !identical(rownames(x), rownames(y)))
+        warning("x and y have different rownames")
+
     w <- dfm_trim(x, min_termfreq = 1)
     if (boolean)
         w <- dfm_weight(w, "boolean")

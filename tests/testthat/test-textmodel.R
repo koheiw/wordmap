@@ -152,13 +152,32 @@ test_that("methods for textmodel_wordmap works correctly", {
 
 })
 
-test_that("textmodel_wordmap() raises error if dfm is empty", {
-    dfmt1 <- dfm(tokens("a b c"))
-    dfmt2 <- dfm(tokens("A"))
-    expect_error(textmodel_wordmap(dfm_trim(dfmt1, min_termfreq = 10), dfmt2),
+test_that("textmodel_wordmap() raises errors", {
+
+    dfmt <- dfm(tokens(c(doc1 = "a b c", doc2 = "d e f", doc3 = "a d e")))
+    mat0 <- matrix(c(0, 0, 0, 0, 0, 0),
+                   nrow = 3, dimnames = list(NULL, c("X", "Y")))
+    mat1 <- matrix(c(1, 0, 1, 0, 1, 0),
+                   nrow = 3, dimnames = list(NULL, c("X", "Y")))
+    mat2 <- matrix(c(1, 0, 1, 0, 1, 0),
+                   nrow = 3, dimnames = list(c("doc1", "doc2", "doc3"),
+                                             c("X", "Y")))
+    mat3 <- matrix(c(1, 0, 1, 0, 1, 0),
+                   nrow = 3, dimnames = list(c("d1", "d2", "d3"),
+                                             c("X", "Y")))
+
+    expect_silent(textmodel_wordmap(dfmt, mat1))
+    expect_silent(textmodel_wordmap(dfmt, mat2))
+    expect_warning(textmodel_wordmap(dfmt, mat3),
+                   "x and y have different rownames")
+
+    expect_error(textmodel_wordmap(dfmt[1:2,], mat1),
+                 "x and y must have the same number of rows")
+
+    expect_error(textmodel_wordmap(dfm_trim(dfmt, min_termfreq = 10), mat1),
                  "x must have at least one non-zero feature")
 
-    expect_error(textmodel_wordmap(dfmt1, dfm_trim(dfmt2, min_termfreq = 10)),
+    expect_error(textmodel_wordmap(dfmt, mat0),
                  "y must have at least one non-zero feature")
 })
 
