@@ -155,8 +155,14 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
         if (verbose) cat(sprintf('  label = "%s"\n', key))
         z <- w[as.logical(y[,key] > 0),]
         s <- colSums(z)
-        v0 <- m - s + smooth
-        v1 <- s + smooth
+        a <- mean(s)
+        if (smooth >= 1) {
+            v0 <- m - s + smooth
+            v1 <- s + smooth
+        } else {
+            v0 <- m - s + (a * smooth)
+            v1 <- s + (a * smooth)
+        }
         model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
 
         if (entropy %in% c("local", "average")) {
