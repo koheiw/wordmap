@@ -78,6 +78,44 @@ test_that("textmodel_wordmap() works with different inputs", {
     )
 })
 
+test_that("old and new produce similar results", {
+
+    smat <- xtabs( ~ docid(dfmt_test) + dfmt_test$Party, sparse = TRUE)
+    wmp_old <- textmodel_wordmap(dfmt_test, smat, old = TRUE)
+    wmp_new <- textmodel_wordmap(dfmt_test, smat)
+    pred_old <- predict(wmp_old, confidence = TRUE)
+    pred_new <- predict(wmp_new, confidence = TRUE)
+
+    expect_true(
+        all(pred_old$class == pred_new$class)
+    )
+    expect_gt(
+        cor(pred_old$confidence.fit, pred_new$confidence.fit),
+        0.98
+    )
+})
+
+test_that("coefficnets do not change on larger corpus", {
+
+    smat <- xtabs( ~ docid(dfmt_test) + dfmt_test$Party, sparse = TRUE)
+    wmp1 <- textmodel_wordmap(dfmt_test, smat)
+    wmp10 <- textmodel_wordmap(dfmt_test * 10, smat)
+    wmp100 <- textmodel_wordmap(dfmt_test * 100, smat)
+
+    expect_equal(wmp1$model, wmp10$model)
+    expect_equal(wmp1$model, wmp100$model)
+
+    pred1 <- predict(wmp1, confidence = TRUE)
+    pred10 <- predict(wmp10, confidence = TRUE)
+    pred100 <- predict(wmp100, confidence = TRUE)
+
+    expect_equal(
+        pred1$confidence.fit, pred10$confidence.fit
+    )
+    expect_equal(
+        pred1$confidence.fit, pred100$confidence.fit
+    )
+})
 
 test_that("methods for textmodel_wordmap works correctly", {
     txt <- c("Ireland is famous for Guinness.",
