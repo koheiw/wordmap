@@ -11,8 +11,9 @@
 #'   `y`.
 #' @param drop_label if `TRUE`, drops empty columns of `y` and ignore their
 #'   labels.
-#' @param smooth a value added to the frequency of words to smooth likelihood
-#'   ratios.
+#' @param smooth the amount of smoothing in computing coefficients.
+#'   When `smooth = 0.01`, 1% of the mean frequency of words in each class
+#'   is added to smooth likelihood ratios.
 #' @param boolean if `TRUE`, only consider presence or absence of features in
 #'   each document to limit the impact of words repeated in few documents.
 #' @param residual if `TRUE`, a residual class is added to `y`. It is named
@@ -76,7 +77,7 @@
 #' predict(map)
 #'
 #' @export
-textmodel_wordmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
+textmodel_wordmap <- function(x, y, label = c("all", "max"), smooth = 0.01,
                               boolean = FALSE, drop_label = TRUE,
                               entropy = c("none", "global", "local", "average"),
                               residual = FALSE,
@@ -88,11 +89,12 @@ textmodel_wordmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
 #' @noRd
 #' @export
 #' @importFrom quanteda check_double check_logical
-textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
+textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 0.01,
                                   boolean = FALSE, drop_label = TRUE,
                                   entropy = c("none", "global", "local", "average"),
                                   residual = FALSE,
-                                  verbose = quanteda_options('verbose'), ...) {
+                                  verbose = quanteda_options('verbose'), ...,
+                                  old = FALSE) {
 
     unused_dots(...)
     entropy <- match.arg(entropy)
@@ -156,7 +158,7 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
         z <- w[as.logical(y[,key] > 0),]
         s <- colSums(z)
         a <- mean(s)
-        if (smooth >= 1) {
+        if (old) {
             v0 <- m - s + smooth
             v1 <- s + smooth
         } else {
