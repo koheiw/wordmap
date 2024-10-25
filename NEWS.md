@@ -1,3 +1,7 @@
+## Changes in v0.9.2
+
+* Change smoothing to produce consistent results on larger corpus. 
+
 ## Changes in v0.9.1
 
 * Add checks on the number and names of rows of x and y.
