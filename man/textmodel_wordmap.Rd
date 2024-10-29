@@ -8,7 +8,7 @@ textmodel_wordmap(
   x,
   y,
   label = c("all", "max"),
-  smooth = 1,
+  smooth = 0.01,
   boolean = FALSE,
   drop_label = TRUE,
   entropy = c("none", "global", "local", "average"),
@@ -26,8 +26,9 @@ documents. It can be created applying \code{\link[quanteda:dfm_lookup]{quanteda:
 \item{label}{if "max", uses only labels for the maximum value in each row of
 \code{y}.}
 
-\item{smooth}{a value added to the frequency of words to smooth likelihood
-ratios.}
+\item{smooth}{the amount of smoothing in computing coefficients.
+When \code{smooth = 0.01}, 1\% of the mean frequency of words in each class
+is added to smooth likelihood ratios.}
 
 \item{boolean}{if \code{TRUE}, only consider presence or absence of features in
 each document to limit the impact of words repeated in few documents.}
