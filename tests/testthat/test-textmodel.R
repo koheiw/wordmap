@@ -76,6 +76,11 @@ test_that("textmodel_wordmap() works with different inputs", {
         textmodel_wordmap(dfmt, smat, drop_label = "no"),
         "The value of drop_label cannot be NA"
     )
+
+    expect_warning(
+        textmodel_wordmap(dfmt, smat, smooth = 1.0),
+        "The value of smooth became fractional in wordmap v0.92"
+    )
 })
 
 test_that("old and new produce similar results", {
