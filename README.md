@@ -14,7 +14,7 @@ perform dictionary analysis.
 
 ## How to install
 
-**wordmap** is available on CRAN since the v0.9.1 You can install the
+**wordmap** is available on CRAN since the v0.8.0 You can install the
 package using the R command.
 
 ``` r
@@ -40,22 +40,13 @@ United Nations General Assembly in 2017.
 ``` r
 require(quanteda)
 ## Loading required package: quanteda
-## Warning: package 'quanteda' was built under R version 4.3.3
-## Warning in .recacheSubclasses(def@className, def, env): undefined subclass
-## "ndiMatrix" of class "replValueSp"; definition not updated
-## Package version: 4.0.2
+## Package version: 4.1.0
 ## Unicode version: 15.1
 ## ICU version: 74.1
 ## Parallel computing: 16 of 16 threads used.
 ## See https://quanteda.io for tutorials and examples.
-```
-
-``` r
 require(wordmap)
 ## Loading required package: wordmap
-```
-
-``` r
 
 dict <- data_dictionary_topic
 print(dict)
@@ -72,9 +63,6 @@ print(dict)
 ##   - democra*, autocra*, dictator*, vote*, represent*, elect*, leader*, president*, government*, leadership*
 ## - [development]:
 ##   - develop*, market*, investment*, econom*, climate change, assistance*, sustain*, povert*, trade*, grow*, social*, environment*, prosperit*, progress*, financ*, cooperation*
-```
-
-``` r
 
 corp <- data_corpus_ungd2017 %>% 
     corpus_reshape()
@@ -92,41 +80,41 @@ map <- textmodel_wordmap(dfmt_feat, dfmt_label)
 coef(map)
 ## $greeting
 ##         express    congratulate           thank          thanks congratulations 
-##        7.675771        7.504707        7.443149        6.595851        6.435508 
+##       11.986522       11.814299       11.752273       10.894463       10.730899 
 ##       expressed       greetings      expression             sir  congratulating 
-##        6.162215        5.825743        5.784921        5.697909        5.497239 
+##       10.450737       10.102669       10.060145        9.969254        9.758163 
 ## 
 ## $un
 ##           session      organization            reform secretary-general 
-##          6.882983          6.872202          6.658498          6.581806 
+##          9.148177          9.137369          8.923089          8.846157 
 ##        resolution       resolutions        conference           charter 
-##          6.170891          6.049001          6.036579          6.030309 
+##          8.433594          8.311070          8.298578          8.292274 
 ##     organizations           reforms 
-##          5.895879          5.605796 
+##          8.157032          7.864775 
 ## 
 ## $security
 ##     peace  security   nuclear terrorism   weapons  conflict       war  peaceful 
-##  7.680667  7.540309  6.529089  6.526995  6.278372  6.203023  6.049838  5.987099 
+##  9.487776  9.347336  8.335005  8.332907  8.083790  8.008265  7.854679  7.791758 
 ## conflicts    threat 
-##  5.942974  5.852540 
+##  7.747497  7.656765 
 ## 
 ## $human
 ##   citizens  education    protect protection    dignity violations protecting 
-##   7.244883   7.127100   6.972950   6.807157   6.703617   6.307201   6.063579 
+##  10.615543  10.497122  10.342014  10.175012  10.070607   9.669904   9.422653 
 ##  violation  protected       race 
-##   5.787326   5.787326   5.404334 
+##   9.141037   9.141037   8.747592 
 ## 
 ## $democracy
 ##  government   president  democratic   democracy  leadership     leaders 
-##    7.933901    7.509994    7.070978    6.657607    6.589889    6.438918 
+##   10.751528   10.326801    9.886474    9.471213    9.403103    9.251157 
 ##    election governments   elections   represent 
-##    6.408841    6.148764    5.738336    5.708031 
+##    9.220866    8.958655    8.543480    8.512740 
 ## 
 ## $development
 ## development sustainable    economic cooperation      social     poverty 
-##    8.045268    7.523939    7.034871    6.713516    6.396488    6.262509 
+##   10.045804    9.524120    9.034501    8.712604    8.394841    8.260474 
 ##    progress  developing environment  assistance 
-##    6.229719    6.042943    5.914501    5.862406
+##    8.227581    8.040148    7.911177    7.858847
 ```
 
 ### Predict topics of sentences
@@ -135,18 +123,18 @@ coef(map)
 dat <- data.frame(text = corp, topic = predict(map))
 ```
 
-|                | text                                                                                                                                                                                                                  | topic       |
-|:---------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|
-| Afghanistan.1  | As I stand here before the General Assembly today, I am reminded that the wise men and women of 1945 displayed a unique capacity to learn from and act on the lessons of history.                                     | un          |
-| Afghanistan.2  | Shaped by the Great Depression and tempered by the carnage of the Second World War, they established global order through institutions that would provide security and stability for generations to come.             | security    |
-| Afghanistan.3  | The United Nations, the International Monetary Fund, the World Bank and other organizations were founded to coordinate responses to international challenges and to make crimes against humanity a thing of the past. | un          |
-| Afghanistan.4  | There can be little doubt that today the scale, scope and speed of their imagination and efforts have not yet been matched.                                                                                           | security    |
-| Afghanistan.5  | But future historians will judge those institutions on how they respond to the challenges of today and the challenges we must confront in the future.                                                                 | development |
-| Afghanistan.6  | As global leaders, we seek certainty and familiarity in the rules of the game that dominated the twentieth century.                                                                                                   | democracy   |
-| Afghanistan.7  | But in today’s ever-changing world, the dominant contextual characteristic defining our times is extreme uncertainty.                                                                                                 | security    |
-| Afghanistan.8  | It is easy to illustrate this uncertainty by looking at threats we are facing - to our economies, our security and our values.                                                                                        | security    |
-| Afghanistan.9  | There is an emerging consensus that advanced economies have yet to arrive at proper growth models to overcome high unemployment, decreasing income and wealth inequality.                                             | development |
-| Afghanistan.10 | The threat of economic crisis, therefore, still hangs over us.                                                                                                                                                        | security    |
+|  | text | topic |
+|:---|:---|:---|
+| Afghanistan.1 | As I stand here before the General Assembly today, I am reminded that the wise men and women of 1945 displayed a unique capacity to learn from and act on the lessons of history. | un |
+| Afghanistan.2 | Shaped by the Great Depression and tempered by the carnage of the Second World War, they established global order through institutions that would provide security and stability for generations to come. | security |
+| Afghanistan.3 | The United Nations, the International Monetary Fund, the World Bank and other organizations were founded to coordinate responses to international challenges and to make crimes against humanity a thing of the past. | un |
+| Afghanistan.4 | There can be little doubt that today the scale, scope and speed of their imagination and efforts have not yet been matched. | security |
+| Afghanistan.5 | But future historians will judge those institutions on how they respond to the challenges of today and the challenges we must confront in the future. | human |
+| Afghanistan.6 | As global leaders, we seek certainty and familiarity in the rules of the game that dominated the twentieth century. | democracy |
+| Afghanistan.7 | But in today’s ever-changing world, the dominant contextual characteristic defining our times is extreme uncertainty. | security |
+| Afghanistan.8 | It is easy to illustrate this uncertainty by looking at threats we are facing - to our economies, our security and our values. | security |
+| Afghanistan.9 | There is an emerging consensus that advanced economies have yet to arrive at proper growth models to overcome high unemployment, decreasing income and wealth inequality. | development |
+| Afghanistan.10 | The threat of economic crisis, therefore, still hangs over us. | security |
 
 ### Create a topic dictionary
 
@@ -157,9 +145,9 @@ dictionary could be use to perform analysis of other corpora.
 as.dictionary(map, n = 100)
 ## Dictionary object with 6 key entries.
 ## - [greeting]:
-##   - express, congratulate, thank, thanks, congratulations, expressed, greetings, expression, sir, congratulating, expressing, lajčák, miroslav, expresses, congratulates, outset, expressions, warm, election, warmly [ ... and 80 more ]
+##   - express, congratulate, thank, thanks, congratulations, expressed, greetings, expression, sir, congratulating, expressing, expresses, congratulates, expressions, lajčák, miroslav, outset, warmly, warm, preside [ ... and 80 more ]
 ## - [un]:
-##   - session, organization, reform, secretary-general, resolution, resolutions, conference, charter, organizations, reforms, seventy-second, seventy-first, seventy, organization's, reforming, commissioner, lajčák, miroslav, reformed, repositioning [ ... and 80 more ]
+##   - session, organization, reform, secretary-general, resolution, resolutions, conference, charter, organizations, reforms, seventy-first, seventy, organization's, reforming, commissioner, seventy-second, reformed, repositioning, twenty-third, organizational [ ... and 80 more ]
 ## - [security]:
 ##   - peace, security, nuclear, terrorism, weapons, conflict, war, peaceful, conflicts, threat, solution, crisis, violence, fight, threats, terrorist, force, military, crises, destruction [ ... and 80 more ]
 ## - [human]:

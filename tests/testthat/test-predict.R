@@ -33,11 +33,11 @@ test_that("predict() is working", {
     expect_equal(pred$class,
                  factor(c(text1 = "A", text2 = "B", text3 = NA)))
     expect_equal(pred$confidence.fit,
-                 c(0.018, 0.048, NA), tolerance = 0.01)
+                 c(0.055, 0.058, NA), tolerance = 0.01)
     expect_equal(predict(map, newdata = dfmt_new, rank = 2),
                  factor(c(text1 = "B", text2 = "A", text3 = NA)))
     expect_equal(as.numeric(predict(map, newdata = dfmt_new, type = "all")),
-                 c(0.018, -0.048, NA, -0.018, 0.048, NA), tolerance = 0.01)
+                 c(0.055, -0.058, NA, -0.055, 0.058, NA), tolerance = 0.01)
 
 })
 
@@ -81,13 +81,13 @@ test_that("min_conf is working", {
     )
 
     expect_equal(
-        predict(map, confidence = TRUE, min_conf = 0.1)$class,
-        factor(c(text1 = NA, text2 = "B", text3 = "B"), levels = c("A", "B"))
+        predict(map, confidence = TRUE, min_conf = 0.5)$class,
+        factor(c(text1 = "A", text2 = NA, text3 = NA), levels = c("A", "B"))
     )
 
     expect_equal(
         predict(map, confidence = FALSE, min_conf = 0.1),
-        factor(c(text1 = NA, text2 = "B", text3 = "B"), levels = c("A", "B"))
+        factor(c(text1 = "A", text2 = "B", text3 = "B"), levels = c("A", "B"))
     )
 
     expect_equal(

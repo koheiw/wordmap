@@ -21,7 +21,7 @@
 Returns a list or a \link[quanteda:dictionary]{quanteda::dictionary} object.
 }
 \description{
-\code{as.list()} returns features with the largest coefficientsa as a list of
+\code{as.list()} returns features with the largest coefficients as a list of
 character vector. \code{as.dictionary()} returns a \link[quanteda:dictionary]{quanteda::dictionary} object
 that can be use for dictionary analysis.
 }
