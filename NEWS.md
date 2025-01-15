@@ -1,3 +1,7 @@
+## Changes in v0.9.3
+
+* Update tests to pass CRAN tests.
+
 ## Changes in v0.9.2
 
 * Improve smoothing to produce consistent results on larger corpora. 
