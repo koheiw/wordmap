@@ -236,12 +236,15 @@ test_that("label and drop_label are working", {
 
     map1 <- textmodel_wordmap(dfmt, dfmt_label)
     expect_equal(names(coef(map1)), c("us", "jp", "in", "pk", "gb", "fr"))
+    expect_true(all(!is.na(map1$model)))
 
     map2 <- textmodel_wordmap(dfmt, dfmt_label, label = "max")
     expect_equal(names(coef(map2)), c("jp", "in", "pk", "gb"))
+    expect_true(all(!is.na(map2$model)))
 
     map3 <- textmodel_wordmap(dfmt, dfmt_label, drop_label = FALSE)
     expect_equal(names(coef(map3)), colnames(dfmt_label))
+    expect_true(all(!is.na(map3$model)))
 })
 
 test_that("accuracy() is correct", {
