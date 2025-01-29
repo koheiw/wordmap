@@ -164,8 +164,8 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 0.01,
             if (smooth >= 1.0)
                 warning("The value of smooth became fractional in wordmap v0.92")
             a <- mean(s)
-            v0 <- m - s + (a * smooth)
-            v1 <- s + (a * smooth)
+            v0 <- m - s + (a * smooth) + (1 / length(s))
+            v1 <- s + (a * smooth) + (1 / length(s))
         }
         model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
 
