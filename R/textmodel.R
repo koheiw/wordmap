@@ -162,7 +162,7 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 0.01,
             v1 <- s + smooth
         } else {
             if (smooth >= 1.0)
-                warning("The value of smooth became fractional in wordmap v0.92")
+                warning("The value of smooth became fractional in wordmap v0.9.2")
             a <- mean(s) + (1 / length(s)) # assume single word always
             v0 <- m - s + (a * smooth)
             v1 <- s + (a * smooth)

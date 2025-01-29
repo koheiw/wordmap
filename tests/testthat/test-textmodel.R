@@ -79,7 +79,7 @@ test_that("textmodel_wordmap() works with different inputs", {
 
     expect_warning(
         textmodel_wordmap(dfmt, smat, smooth = 1.0),
-        "The value of smooth became fractional in wordmap v0.92"
+        "The value of smooth became fractional in wordmap v0.9.2"
     )
 })
 
