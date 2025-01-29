@@ -1,6 +1,7 @@
 ## Changes in v0.9.3
 
 * Update tests to pass CRAN tests.
+* Address issues when classes have no associated features (#6).
 
 ## Changes in v0.9.2
 
@@ -8,7 +9,7 @@
 
 ## Changes in v0.9.1
 
-* Add checks on the number and names of rows of x and y.
+* Add checks on the number and names of rows of `x` and `y`.
 
 ## Changes in v0.9.0
 
@@ -20,4 +21,4 @@
 
 ## Changes in v0.8.0
 
-* Create the wordmap package from the newsmap package v0.9.1.
+* Create the **wordmap** package from the **newsmap** package v0.9.1.
