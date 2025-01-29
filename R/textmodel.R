@@ -163,9 +163,10 @@ textmodel_wordmap.dfm <- function(x, y, label = c("all", "max"), smooth = 0.01,
         } else {
             if (smooth >= 1.0)
                 warning("The value of smooth became fractional in wordmap v0.9.2")
-            a <- mean(s) + (1 / length(s)) # assume single word always
-            v0 <- m - s + (a * smooth)
-            v1 <- s + (a * smooth)
+            a <- mean(s)
+            e <- .Machine$double.eps
+            v0 <- m - s + (a * smooth) + e
+            v1 <- s + (a * smooth) + e
         }
         model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
 
