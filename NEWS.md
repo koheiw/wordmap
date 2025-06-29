@@ -1,3 +1,7 @@
+## Changes in v0.9.4
+
+* Fix tests for `textplot_*()` for the new version of **ggplot2**.
+
 ## Changes in v0.9.3
 
 * Update tests to pass CRAN tests.
