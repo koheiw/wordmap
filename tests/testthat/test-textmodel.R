@@ -2,7 +2,7 @@ require(quanteda)
 
 dict_newsmap <- dictionary(file = "../data/dictionary.yml")
 
-toks_test <- tokens(data_corpus_inaugural, remove_punct = TRUE)
+toks_test <- tokens(data_corpus_inaugural[1:59], remove_punct = TRUE)
 dfmt_test <- dfm(toks_test) %>%
     dfm_remove(stopwords("en"))
 toks_dict_test <- tokens_lookup(toks_test, dict_newsmap, level = 3)
@@ -357,6 +357,3 @@ test_that("residual is working", {
     )
 
 })
-
-
-
