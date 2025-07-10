@@ -1,3 +1,7 @@
+## Changes in v0.9.5
+
+* Fix tests for **quanteda** v4.3.1.
+
 ## Changes in v0.9.4
 
 * Fix tests for `textplot_*()` for the new version of **ggplot2**.
